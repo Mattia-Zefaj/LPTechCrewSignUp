@@ -2743,6 +2743,31 @@
       grid-template-columns: 1fr;
     }
 
+  .app-footer {
+    margin: 34px 0 10px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 750;
+  }
+
+  .app-footer a {
+    color: #bfdbfe;
+    text-decoration: none;
+    font-weight: 900;
+  }
+
+  .app-footer a:hover {
+    color: white;
+    text-decoration: underline;
+  }
+
+  body.phone-mode .app-footer {
+    margin-top: 28px;
+    padding-bottom: 12px;
+    font-size: 13px;
+  }
+
 </style>
 </head>
 
@@ -2855,6 +2880,11 @@
           </div>
         </div>
       </section>
+      <footer id="appFooter" class="app-footer" style="display:none;">
+        <a href="https://github.com/Mattia-Zefaj/LPTechCrewSignUp/tree/main" target="_blank" rel="noopener">
+          Made by Mattia Zefaj ↗
+        </a>
+      </footer>
     </main>
   </div>
 
@@ -3005,6 +3035,10 @@
 
         document.getElementById("loading").style.display = "none";
         document.getElementById("dashboardPage").style.display = "block";
+
+        const footer = document.getElementById("appFooter");
+        if (footer) footer.style.display = "block";
+
         document.getElementById("userEmail").textContent = state.user.email;
         document.getElementById("adminNav").style.display = state.isAdmin ? "inline-flex" : "none";
         document.body.classList.toggle("is-admin-user", !!state.isAdmin);
@@ -3020,11 +3054,22 @@
       document.getElementById("loading").className = "notice error";
       document.getElementById("loading").innerHTML = escapeHtml(reason || "Access blocked.");
       document.getElementById("userEmail").textContent = "Access blocked";
+      const footer = document.getElementById("appFooter");
+      if (footer) footer.style.display = "none";
     }
 
     function renderFatalError(error) {
-      document.getElementById("loading").className = "notice error";
-      document.getElementById("loading").innerHTML = "Error: " + escapeHtml(error.message || error);
+      const loading = document.getElementById("loading");
+      loading.style.display = "block";
+      loading.className = "notice error";
+      loading.innerHTML = "Error: " + escapeHtml(error.message || error);
+
+      document.getElementById("dashboardPage").style.display = "none";
+      document.getElementById("adminPage").style.display = "none";
+      document.getElementById("eventPage").classList.remove("active");
+
+      const footer = document.getElementById("appFooter");
+      if (footer) footer.style.display = "none";
     }
 
     function render() {
