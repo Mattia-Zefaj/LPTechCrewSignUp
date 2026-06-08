@@ -1,0 +1,5563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tech Crew Sign Up</title>
+
+  <style>
+    :root {
+      --bg: #0b1220;
+      --panel: #111a2c;
+      --panel-2: #162238;
+      --line: #25324a;
+      --line-strong: #33415f;
+      --text: #f7f9fc;
+      --muted: #9aa7bd;
+      --blue: #3b82f6;
+      --blue-soft: rgba(59,130,246,.14);
+      --green: #22c55e;
+      --green-soft: rgba(34,197,94,.12);
+      --amber: #f59e0b;
+      --amber-soft: rgba(245,158,11,.12);
+      --red: #ef4444;
+      --red-soft: rgba(239,68,68,.12);
+      --radius: 18px;
+      --shadow: 0 18px 55px rgba(0,0,0,.28);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--bg);
+      overscroll-behavior: none;
+    }
+
+    body {
+      background-color: var(--bg);
+      overscroll-behavior: none;
+    }
+
+    html, body {
+      min-height: 100%;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      overscroll-behavior: none;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+      background: var(--bg);
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 8% -8%, rgba(59,130,246,.12), transparent 360px),
+        var(--bg);
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .topbar {
+      height: 72px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(11,18,32,.92);
+      backdrop-filter: blur(14px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .topbar-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      height: 100%;
+      padding: 0 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 250px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, #60a5fa, #3b82f6);
+      display: grid;
+      place-items: center;
+      color: white;
+      box-shadow: 0 10px 26px rgba(59,130,246,.25);
+      flex: 0 0 auto;
+    }
+
+    .brand-icon {
+      width: 30px;
+      height: 30px;
+      display: block;
+    }
+
+    .brand h1 {
+      font-size: 20px;
+      line-height: 1.05;
+      margin: 0;
+      letter-spacing: -.02em;
+    }
+
+    .brand small {
+      display: block;
+      color: var(--muted);
+      margin-top: 4px;
+      font-size: 12px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .nav-btn, .btn, .seg-btn {
+      color: var(--text);
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      padding: 10px 13px;
+      font-weight: 800;
+      transition: .14s ease;
+    }
+
+    .nav-btn:hover, .btn:hover, .seg-btn:hover {
+      border-color: var(--line-strong);
+      transform: translateY(-1px);
+    }
+
+    .nav-btn.active, .btn.primary, .seg-btn.active {
+      background: var(--blue);
+      border-color: rgba(255,255,255,.12);
+      color: white;
+    }
+
+    .btn.small {
+      padding: 7px 10px;
+      font-size: 13px;
+      border-radius: 10px;
+    }
+
+    .btn.ghost {
+      background: transparent;
+    }
+
+    .btn.danger {
+      background: var(--red);
+    }
+
+    .btn.unavailable {
+      background: rgba(148, 163, 184, .12);
+      border-color: rgba(148, 163, 184, .18);
+      color: #94a3b8;
+    }
+
+    .main {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 22px;
+    }
+
+    .page-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .page-title h2 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: -.035em;
+    }
+
+    .page-title p {
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.005)), var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .panel.pad {
+      padding: 16px;
+    }
+
+    .compact-grid {
+      display: grid;
+      grid-template-columns: 310px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .collapsible-panel {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .collapsible-head {
+      width: 100%;
+      min-height: 50px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: transparent;
+      color: inherit;
+      text-align: left;
+    }
+
+    .collapsible-title {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: .02em;
+      color: var(--muted);
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .collapsible-arrow {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 28px;
+      background: rgba(59, 130, 246, .12);
+      border: 1px solid rgba(96, 165, 250, .35);
+      color: #bfdbfe;
+      line-height: 1;
+      position: relative;
+      transition: .14s ease;
+    }
+
+    .collapsible-arrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(45deg) translate(-1px, -1px);
+      transform-origin: center;
+    }
+
+    .collapsible-head:hover .collapsible-arrow {
+      border-color: rgba(96, 165, 250, .62);
+      background: rgba(59, 130, 246, .2);
+      color: white;
+    }
+
+    .collapsible-panel.open .collapsible-arrow::before {
+      transform: rotate(225deg) translate(-1px, -1px);
+    }
+
+    .collapsible-body {
+      padding: 0 16px 16px;
+    }
+
+    .collapsible-panel:not(.open) .collapsible-body,
+    .collapsible-panel[data-open="false"] .collapsible-body,
+    .collapsible-body[hidden] {
+      display: none !important;
+    }
+
+    .mini-title {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: .02em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin: 0 0 10px;
+    }
+
+    .signup-mini {
+      display: grid;
+      gap: 9px;
+    }
+
+    .signup-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      padding: 10px;
+      background: rgba(255,255,255,.025);
+      border: 1px solid var(--line);
+      border-radius: 13px;
+    }
+
+    .signup-row strong {
+      font-size: 14px;
+    }
+
+    .signup-row span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .signup-row > .pill {
+      margin-top: 0;
+      align-self: center;
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .seg-btn {
+      min-height: 38px;
+      padding: 8px 13px;
+      color: var(--muted);
+      font-size: 13px;
+      border-radius: 13px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toolbar .btn.small {
+      min-height: 38px;
+      padding: 8px 13px;
+      border-radius: 13px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .event-control-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .event-control-row .filters {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 640px) {
+      .event-control-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .event-control-row .toolbar {
+        justify-content: stretch;
+      }
+
+      .event-control-row .toolbar .btn {
+        flex: 1;
+      }
+    }
+
+    .events-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .event-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      cursor: pointer;
+      transition: .14s ease;
+    }
+
+    .event-info-side {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: 76px minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
+    }
+
+    .event-row:hover {
+      transform: translateY(-1px);
+      border-color: var(--blue);
+      background: #142039;
+    }
+
+    .layout-preview {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #0e1728;
+      overflow: hidden;
+    }
+
+    .layout-preview-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .layout-preview-head strong {
+      font-size: 14px;
+    }
+
+    .layout-preview img {
+      display: block;
+      width: 100%;
+      max-height: 620px;
+      object-fit: contain;
+      background: white;
+    }
+
+    .layout-preview-fallback {
+      padding: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .date-tile {
+      width: 66px;
+      height: 66px;
+      border-radius: 16px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      line-height: 1;
+    }
+
+    .date-tile .mon {
+      color: var(--blue);
+      font-weight: 900;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .date-tile .day {
+      font-weight: 950;
+      font-size: 24px;
+      margin-top: 4px;
+    }
+
+    .event-main {
+      min-width: 0;
+    }
+
+    .event-main h3 {
+      margin: 0;
+      font-size: 17px;
+      letter-spacing: -.02em;
+    }
+
+    .event-meta {
+      margin-top: 6px;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .event-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .layout-pill-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(59, 130, 246, .22);
+      border: 1px solid rgba(96, 165, 250, .5);
+      color: #dbeafe;
+      font-size: 13px;
+      font-weight: 900;
+      text-decoration: none;
+      white-space: nowrap;
+      box-shadow: 0 0 20px rgba(59, 130, 246, .12);
+      transition: .14s ease;
+    }
+
+    .layout-pill-button:hover {
+      background: rgba(59, 130, 246, .34);
+      border-color: rgba(147, 197, 253, .75);
+      transform: translateY(-1px);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .event-actions .pill,
+    .event-actions .btn.small {
+      min-height: 34px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .event-actions .needed-pill {
+      gap: 7px;
+      padding-right: 8px;
+    }
+
+    .event-actions .needed-help {
+      width: 20px;
+      height: 20px;
+      font-size: 11px;
+      flex: 0 0 auto;
+    }
+
+    .event-actions .btn.small {
+      min-width: 66px;
+    }
+
+    .needed-pill {
+      gap: 8px;
+      position: relative;
+      overflow: visible;
+    }
+
+    .needed-help {
+      display: inline-grid;
+      place-items: center;
+      width: 19px;
+      height: 19px;
+      border-radius: 999px;
+      border: 1px solid rgba(245,158,11,.55);
+      background: rgba(245,158,11,.12);
+      color: #fde68a;
+      font-size: 11px;
+      font-weight: 950;
+      line-height: 1;
+      cursor: help;
+      position: relative;
+      flex: 0 0 auto;
+      padding: 0;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .needed-help:hover,
+    .needed-help:focus-visible {
+      background: rgba(245,158,11,.22);
+      border-color: rgba(245,158,11,.8);
+      outline: none;
+    }
+
+    .needed-help:hover::after {
+      content: attr(data-help);
+      position: absolute;
+      right: 50%;
+      bottom: calc(100% + 12px);
+      transform: translateX(50%);
+      width: max-content;
+      max-width: 320px;
+      padding: 10px 12px;
+      border-radius: 13px;
+      background: rgba(18, 29, 50, .98);
+      border: 1px solid rgba(245,158,11,.45);
+      color: #f8fafc;
+      font-size: 13px;
+      line-height: 1.4;
+      box-shadow: 0 18px 45px rgba(0,0,0,.45);
+      z-index: 100;
+      white-space: pre-line;
+    }
+
+    .needed-help:hover::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 5px);
+      transform: translateX(-50%);
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 7px solid rgba(245,158,11,.75);
+      z-index: 101;
+    }
+
+    .pill.blue {
+      color: #bfdbfe;
+      background: var(--blue-soft);
+      border-color: rgba(59,130,246,.26);
+    }
+
+    .pill.green {
+      color: #bbf7d0;
+      background: var(--green-soft);
+      border-color: rgba(34,197,94,.25);
+    }
+
+    .pill.amber {
+      color: #fde68a;
+      background: var(--amber-soft);
+      border-color: rgba(245,158,11,.25);
+    }
+
+    .pill.red {
+      color: #fecaca;
+      background: var(--red-soft);
+      border-color: rgba(239,68,68,.25);
+    }
+
+    .event-view {
+      display: none;
+    }
+
+    .event-view.active {
+      display: block;
+    }
+
+    .event-summary-card {
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      margin-top: 14px
+    }
+
+    .event-summary-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .event-summary-card h2 {
+      margin: 8px 0 0;
+      font-size: 26px;
+      letter-spacing: -.035em;
+    }
+
+    .role-sections {
+      display: grid;
+      gap: 12px;
+    }
+
+    .dept-section {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.015);
+      overflow: hidden;
+    }
+
+    .dept-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.025);
+    }
+
+    .dept-head h3 {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .roles-grid {
+      padding: 12px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .role-card {
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: #0e1728;
+      padding: 11px;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .role-info-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 64px;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .role-info-main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .role-info-main h4 {
+      margin: 0 0 5px;
+      line-height: 1.08;
+    }
+
+    .role-chip-row {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 5px;
+      margin-top: 0;
+      max-width: 100%;
+    }
+
+    .person-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 6px;
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+      overflow: visible;
+      max-height: none;
+      min-height: 0;
+    }
+
+    .person-name-text {
+      display: inline-flex;
+      color: #dbeafe;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .person-empty {
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .role-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 21px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1;
+      white-space: nowrap;
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+      color: var(--muted);
+    }
+
+    .role-chip.required {
+      color: #bfdbfe;
+      background: rgba(59, 130, 246, .16);
+      border-color: rgba(59, 130, 246, .36);
+    }
+
+    .role-chip.optional {
+      color: #cbd5e1;
+      background: rgba(148, 163, 184, .12);
+      border-color: rgba(148, 163, 184, .22);
+    }
+
+    .role-chip.training {
+      color: #fde68a;
+      background: rgba(245, 158, 11, .12);
+      border-color: rgba(245, 158, 11, .34);
+    }
+
+    .role-chip.no-training {
+      color: #bbf7d0;
+      background: rgba(34, 197, 94, .12);
+      border-color: rgba(34, 197, 94, .32);
+    }
+
+    .role-chip.min {
+      color: #fde68a;
+      background: rgba(245, 158, 11, .12);
+      border-color: rgba(245, 158, 11, .34);
+    }
+
+    .role-chip.max {
+      color: #fecaca;
+      background: rgba(239, 68, 68, .12);
+      border-color: rgba(239, 68, 68, .34);
+    }
+
+    .role-status-stack {
+      display: grid;
+      gap: 6px;
+      justify-items: center;
+      width: 64px;
+    }
+
+    .role-count-badge {
+      width: 64px;
+      height: 38px;
+      padding: 5px 8px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .role-count-badge.good {
+      color: #bbf7d0;
+      background: rgba(34, 197, 94, .12);
+      border: 1px solid rgba(34, 197, 94, .38);
+    }
+
+    .role-count-badge.warn {
+      color: #fde68a;
+      background: rgba(245, 158, 11, .12);
+      border: 1px solid rgba(245, 158, 11, .38);
+    }
+
+    .role-limit-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 58px;
+      min-height: 23px;
+      padding: 3px 6px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 950;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .role-limit-chip.min {
+      color: #fde68a;
+      background: rgba(245, 158, 11, .12);
+      border: 1px solid rgba(245, 158, 11, .34);
+    }
+
+    .role-limit-chip.max {
+      color: #fecaca;
+      background: rgba(239, 68, 68, .12);
+      border: 1px solid rgba(239, 68, 68, .34);
+    }
+
+    .role-card.signed {
+      border-color: rgba(34,197,94,.55);
+      box-shadow: 0 0 0 1px rgba(34,197,94,.12) inset;
+    }
+
+    .role-card.locked {
+      opacity: .72;
+    }
+
+    .role-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .role-card h4 {
+      font-size: 15px;
+      letter-spacing: -.01em;
+    }
+
+    .role-sub {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .locked-note {
+      margin-top: 7px;
+      color: #fde68a;
+      background: rgba(245,158,11,.08);
+      border: 1px solid rgba(245,158,11,.22);
+      border-radius: 10px;
+      padding: 7px;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .role-actions {
+      display: flex;
+      gap: 7px;
+    }
+
+    .role-actions .btn {
+      flex: 1;
+      padding: 7px 8px;
+      font-size: 12px;
+      border-radius: 10px;
+    }
+
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .admin-menu {
+      padding: 8px;
+      position: sticky;
+      top: 88px;
+    }
+
+    .admin-menu button {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid transparent;
+      border-radius: 12px;
+      padding: 10px;
+      font-weight: 850;
+      text-align: left;
+    }
+
+    .admin-menu button.active {
+      background: var(--panel-2);
+      color: var(--text);
+      border-color: var(--line);
+    }
+
+    .admin-screen {
+      display: none;
+      padding-bottom: 96px;
+    }
+
+    .admin-screen.active {
+      display: block;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+    }
+
+    .field {
+      display: grid;
+      gap: 5px;
+    }
+
+    .field.span-2 {
+      grid-column: span 2;
+    }
+
+    .field.span-3 {
+      grid-column: span 3;
+    }
+
+    .field.span-6 {
+      grid-column: span 6;
+    }
+
+    label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #0a1220;
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 11px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 76px;
+      resize: vertical;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(59,130,246,.12);
+    }
+
+    .role-builder {
+      display: grid;
+      gap: 10px;
+    }
+
+    .builder-section {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(255,255,255,.015);
+    }
+
+    .builder-section-head {
+      padding: 8px 12px;
+      background: rgba(255,255,255,.025);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .builder-section-head h4 {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .builder-roles {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+      gap: 8px;
+      padding: 9px;
+    }
+
+    .builder-role {
+      display: grid;
+      gap: 9px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #0e1728;
+    }
+
+    .builder-role.is-selected {
+      border-color: rgba(59,130,246,.55);
+      background: rgba(59,130,246,.08);
+    }
+
+    .builder-role-top {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .builder-role-title {
+      min-width: 0;
+    }
+
+    .builder-role strong {
+      display: block;
+      font-size: 13px;
+      line-height: 1.2;
+    }
+
+    .builder-role small {
+      display: block;
+      color: var(--muted);
+      margin-top: 3px;
+      font-size: 11px;
+      line-height: 1.25;
+    }
+
+    .builder-role-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+    }
+
+    .builder-mini-field {
+      display: grid;
+      gap: 4px;
+    }
+
+    .builder-mini-field span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .builder-role input[type="number"] {
+      padding: 7px 8px;
+      border-radius: 9px;
+      min-width: 0;
+    }
+
+    .builder-role input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--blue);
+    }
+
+    .builder-optional {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .list-table {
+      display: grid;
+      gap: 7px;
+    }
+
+    .table-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,.018);
+    }
+
+    .table-row strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .table-row span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .staffing-event-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,.018);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .staffing-event-card:hover {
+      border-color: var(--blue);
+    }
+
+    .staffing-event-card.active {
+      border-color: rgba(59,130,246,.75);
+      background: rgba(59,130,246,.09);
+      box-shadow: 0 0 0 1px rgba(59,130,246,.18) inset;
+    }
+
+    .staffing-role {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px;
+      background: #0e1728;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 8px;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .staffing-signups {
+      display: grid;
+      align-content: start;
+      gap: 8px;
+      min-height: 0;
+    }
+
+    .staffing-actions {
+      display: grid;
+      align-self: end;
+    }
+
+    .staffing-actions .btn {
+      width: 100%;
+      min-height: 42px;
+    }
+
+    .staffing-person {
+      min-width: 0;
+      min-height: 58px;
+    }
+
+    .staffing-person {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+      padding: 8px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.025);
+      overflow: hidden;
+    }
+
+    .staffing-person > div:first-child {
+      min-width: 0;
+    }
+
+    .staffing-person strong,
+    .staffing-person div div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .staffing-person .btn {
+      flex-shrink: 0;
+      max-width: 86px;
+    }
+
+
+    .event-status-actions {
+      display: grid;
+      gap: 10px;
+      justify-items: stretch;
+      min-width: 360px;
+    }
+
+    .event-status-actions .event-signed-pill {
+      justify-content: center;
+      min-height: 38px;
+      font-size: 13px;
+      font-weight: 950;
+      white-space: normal;
+      text-align: center;
+      line-height: 1.25;
+    }
+
+    .event-availability-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .event-availability-actions .btn,
+    .availability-admin-actions .btn,
+    .availability-actions .btn {
+      min-height: 40px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 950;
+      border: 1px solid rgba(96,165,250,.42);
+      background: rgba(59,130,246,.16);
+      color: #dbeafe;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.025) inset;
+      white-space: nowrap;
+    }
+
+    .event-availability-actions .btn:hover,
+    .availability-admin-actions .btn:hover,
+    .availability-actions .btn:hover {
+      background: rgba(59,130,246,.26);
+      border-color: rgba(147,197,253,.7);
+      transform: translateY(-1px);
+    }
+
+    .event-availability-actions .btn.performing,
+    .availability-admin-actions .btn.performing {
+      border-color: rgba(59,130,246,.52);
+      background: rgba(59,130,246,.18);
+    }
+
+    .event-availability-actions .btn.unavailable,
+    .availability-admin-actions .btn.unavailable {
+      border-color: rgba(245,158,11,.48);
+      background: rgba(245,158,11,.13);
+      color: #fde68a;
+    }
+
+    .event-availability-actions .btn.undo,
+    .availability-actions .btn.undo {
+      border-color: rgba(239,68,68,.45);
+      background: rgba(239,68,68,.11);
+      color: #fecaca;
+    }
+
+    .availability-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .availability-list,
+    .not-signed-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .availability-row,
+    .not-signed-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 9px;
+      align-items: stretch;
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,.022);
+    }
+
+    .availability-person {
+      min-width: 0;
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .availability-person strong {
+      color: #dbeafe;
+      font-weight: 900;
+      font-size: 15px;
+      line-height: 1.15;
+    }
+
+    .not-signed-actions,
+    .availability-admin-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .availability-row .availability-actions {
+      justify-content: stretch;
+    }
+
+    .availability-row .availability-actions .btn {
+      width: 100%;
+    }
+
+    @media (max-width: 760px) {
+      .availability-list,
+      .not-signed-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    .copy-results {
+      display: grid;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .copy-result {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: #0e1728;
+    }
+
+    .empty, .notice {
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius);
+      padding: 20px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .notice.error {
+      border-color: rgba(239,68,68,.45);
+      color: #fecaca;
+      background: var(--red-soft);
+    }
+
+    .notice.success {
+      border-color: rgba(34,197,94,.35);
+      color: #bbf7d0;
+      background: var(--green-soft);
+    }
+
+    .toast-stack {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      display: grid;
+      gap: 12px;
+      z-index: 9999;
+      width: min(390px, calc(100vw - 40px));
+    }
+
+    .toast {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
+        rgba(18, 29, 50, .98);
+      border: 1px solid rgba(96,165,250,.55);
+      color: var(--text);
+      border-radius: 18px;
+      padding: 14px 15px 14px 17px;
+      box-shadow:
+        0 22px 65px rgba(0,0,0,.55),
+        0 0 0 1px rgba(255,255,255,.04) inset,
+        0 0 32px rgba(59,130,246,.16);
+      animation: toastIn .22s cubic-bezier(.2,.9,.25,1.2);
+    }
+
+    .toast::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: -18px;
+      bottom: -18px;
+      width: 5px;
+      background: var(--blue);
+      border-radius: 999px;
+    }
+
+    .toast.success {
+      border-color: rgba(34,197,94,.65);
+      box-shadow:
+        0 22px 65px rgba(0,0,0,.55),
+        0 0 0 1px rgba(255,255,255,.04) inset,
+        0 0 36px rgba(34,197,94,.2);
+    }
+
+    .toast.success::before {
+      background: var(--green);
+    }
+
+    .toast.error {
+      border-color: rgba(239,68,68,.72);
+      box-shadow:
+        0 22px 65px rgba(0,0,0,.55),
+        0 0 0 1px rgba(255,255,255,.04) inset,
+        0 0 36px rgba(239,68,68,.2);
+    }
+
+    .toast.error::before {
+      background: var(--red);
+    }
+
+    .toast.warning {
+      border-color: rgba(245,158,11,.72);
+      box-shadow:
+        0 22px 65px rgba(0,0,0,.55),
+        0 0 0 1px rgba(255,255,255,.04) inset,
+        0 0 36px rgba(245,158,11,.2);
+    }
+
+    .toast.warning::before {
+      background: var(--amber);
+    }
+
+    .toast.info {
+      border-color: rgba(96,165,250,.7);
+    }
+
+    .toast.info::before {
+      background: var(--blue);
+    }
+
+    .toast-title {
+      font-weight: 950;
+      font-size: 15px;
+      margin-bottom: 4px;
+      letter-spacing: -.01em;
+    }
+
+    .toast-message {
+      color: #cbd5e1;
+      font-size: 13px;
+      line-height: 1.45;
+      white-space: pre-line;
+    }
+
+    .toast-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .toast-actions .btn {
+      padding: 8px 11px;
+      font-size: 12px;
+      border-radius: 11px;
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(.94);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .sticky-action-bar {
+      position: fixed;
+      left: max(18px, calc((100vw - 1320px) / 2 + 242px));
+      right: max(18px, calc((100vw - 1320px) / 2 + 22px));
+      bottom: 22px;
+      z-index: 90;
+      border: 1px solid rgba(96,165,250,.55);
+      border-radius: 20px;
+      background:
+        linear-gradient(135deg, rgba(59,130,246,.18), rgba(17,26,44,.96) 38%),
+        rgba(15, 23, 42, .96);
+      backdrop-filter: blur(18px);
+      box-shadow:
+        0 24px 70px rgba(0,0,0,.55),
+        0 0 0 1px rgba(255,255,255,.04) inset,
+        0 0 38px rgba(59,130,246,.18);
+      overflow: hidden;
+    }
+
+    .sticky-action-inner {
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .sticky-summary {
+      min-width: 0;
+    }
+
+    .sticky-summary-title {
+      font-weight: 950;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .sticky-summary-meta {
+      color: #cbd5e1;
+      font-size: 12px;
+      line-height: 1.35;
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .sticky-summary-meta strong {
+      color: white;
+    }
+
+    .sticky-summary-list {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sticky-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .admin-screen {
+      display: none;
+      padding-bottom: 150px;
+    }
+
+    @media (max-width: 1150px) {
+      .compact-grid, .admin-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .side-stack {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .admin-menu {
+        position: static;
+        display: flex;
+        flex-wrap: wrap;
+        overflow: visible;
+        gap: 6px;
+      }
+
+      .admin-menu button {
+        width: auto;
+        min-width: 145px;
+        margin-bottom: 0;
+        flex: 1 1 145px;
+      }
+
+      .sticky-action-bar {
+        left: 14px;
+        right: 14px;
+        bottom: 18px;
+      }
+
+      .sticky-action-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .sticky-actions {
+        justify-content: stretch;
+      }
+
+      .sticky-actions .btn {
+        flex: 1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar {
+        height: auto;
+        position: sticky;
+      }
+
+      .topbar-inner, .page-head, .event-summary-top {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 14px;
+      }
+
+      .brand {
+        min-width: 0;
+      }
+
+      .brand h1 {
+        font-size: 18px;
+      }
+
+      .nav {
+        width: 100%;
+      }
+
+      .nav-btn {
+        flex: 1;
+        min-height: 44px;
+      }
+
+      .main {
+        padding: 14px;
+      }
+
+      .page-head {
+        margin-bottom: 12px;
+      }
+
+      .page-title h2 {
+        font-size: 28px;
+      }
+
+      .page-title p {
+        font-size: 15px;
+        line-height: 1.35;
+      }
+
+      .compact-grid {
+        gap: 12px;
+      }
+
+      .side-stack {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .collapsible-head {
+        min-height: 54px;
+        padding: 15px 16px;
+      }
+
+      .collapsible-title {
+        font-size: 14px;
+      }
+
+      .collapsible-arrow {
+        width: 30px;
+        height: 30px;
+        flex-basis: 30px;
+      }
+
+      .event-control-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+
+      .event-control-row .filters,
+      .event-control-row .toolbar {
+        width: 100%;
+      }
+
+      .filters {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .seg-btn,
+      .toolbar .btn.small,
+      .btn.small {
+        min-height: 44px;
+        border-radius: 14px;
+        font-size: 14px;
+      }
+
+      .event-control-row .toolbar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .event-row {
+        grid-template-columns: 58px minmax(0, 1fr);
+        gap: 12px;
+        padding: 12px;
+      }
+
+      .event-main h3 {
+        font-size: 18px;
+        line-height: 1.15;
+      }
+
+      .event-meta {
+        gap: 6px;
+        font-size: 13px;
+        line-height: 1.3;
+      }
+
+      .event-actions {
+        grid-column: 1 / -1;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        gap: 8px;
+      }
+
+      .event-actions .pill,
+      .event-actions .btn.small {
+        min-height: 38px;
+        justify-content: center;
+      }
+
+      .event-actions .pill.blue {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .date-tile {
+        width: 54px;
+        height: 54px;
+        border-radius: 15px;
+      }
+
+      .date-tile .day {
+        font-size: 22px;
+      }
+
+      .event-summary-card {
+        padding: 12px;
+      }
+
+      .event-summary-card h2 {
+        font-size: 26px;
+        line-height: 1.1;
+      }
+
+      .layout-pill-button {
+        min-height: 38px;
+        justify-content: center;
+      }
+
+      .roles-grid,
+      .builder-roles {
+        grid-template-columns: 1fr;
+      }
+
+      .role-card {
+        min-height: 166px;
+        padding: 13px;
+      }
+
+      .role-card h4 {
+        font-size: 16px;
+      }
+
+      .role-actions .btn {
+        min-height: 44px;
+        font-size: 14px;
+        border-radius: 13px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field, .field.span-2, .field.span-3, .field.span-6 {
+        grid-column: span 1;
+      }
+
+      input, select, textarea {
+        min-height: 44px;
+        font-size: 16px;
+      }
+
+      .field > div[style*="grid-template-columns:1fr auto"] {
+        grid-template-columns: 1fr !important;
+        align-items: stretch !important;
+      }
+
+      .admin-menu {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .admin-menu button {
+        width: 100%;
+        min-width: 0;
+        justify-content: space-between;
+        min-height: 44px;
+      }
+
+      .table-row,
+      .copy-result,
+      .staffing-event-card {
+        grid-template-columns: 1fr !important;
+        align-items: stretch;
+      }
+
+      .table-row select,
+      .table-row .btn,
+      .copy-result .btn,
+      .staffing-event-card .toolbar {
+        width: 100%;
+      }
+
+      .staffing-event-card .toolbar {
+        justify-content: stretch !important;
+      }
+
+      .staffing-event-card .toolbar .pill {
+        flex: 1;
+        justify-content: center;
+      }
+
+      .staffing-person {
+        grid-template-columns: 1fr;
+      }
+
+      .staffing-person .btn {
+        max-width: none;
+        width: 100%;
+      }
+
+      .sticky-action-bar {
+        left: 10px;
+        right: 10px;
+        bottom: calc(10px + env(safe-area-inset-bottom));
+        border-radius: 18px;
+      }
+
+      .sticky-action-inner {
+        padding: 12px;
+        gap: 10px;
+      }
+
+      .sticky-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .sticky-summary-list {
+        white-space: normal;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+
+      .toast-stack {
+        left: 12px;
+        right: 12px;
+        bottom: calc(12px + env(safe-area-inset-bottom));
+        width: auto;
+      }
+    }
+
+
+    @media (max-width: 380px) {
+      body.phone-mode .event-row {
+        grid-template-columns: 1fr;
+      }
+
+      body.phone-mode .event-actions {
+        grid-column: 1 / -1;
+      }
+    }
+    @media (max-width: 420px) {
+      .filters {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .event-actions .pill,
+      .event-actions .btn.small {
+        flex: 1 1 100%;
+      }
+
+      .role-info-layout {
+        grid-template-columns: minmax(0, 1fr) 60px;
+        gap: 8px;
+      }
+
+      .role-status-stack {
+        width: 60px;
+      }
+
+      .role-count-badge {
+        width: 60px;
+      }
+
+      .role-limit-chip {
+        width: 54px;
+      }
+    }
+
+
+    /* Mobile dashboard event card refinement: keep the pills the same, but make the event info fill the card better. */
+    body.phone-mode .event-row {
+      grid-template-columns: minmax(0, 1fr) minmax(168px, 37%);
+      min-height: 170px;
+      padding: 18px;
+      align-items: stretch;
+    }
+
+    body.phone-mode .event-info-side {
+      display: grid;
+      grid-template-columns: 88px minmax(0, 1fr);
+      gap: 16px;
+      align-items: center;
+      align-self: stretch;
+      min-width: 0;
+    }
+
+    body.phone-mode .date-tile {
+      width: 88px;
+      height: 88px;
+      border-radius: 22px;
+      align-self: center;
+    }
+
+    body.phone-mode .date-tile .mon {
+      font-size: 16px;
+      letter-spacing: .04em;
+    }
+
+    body.phone-mode .date-tile .day {
+      font-size: 38px;
+      margin-top: 6px;
+    }
+
+    body.phone-mode .event-main {
+      align-self: center;
+      min-width: 0;
+    }
+
+    body.phone-mode .event-main h3 {
+      font-size: 28px;
+      line-height: 1.04;
+      letter-spacing: -.045em;
+      max-width: 100%;
+    }
+
+    body.phone-mode .event-meta {
+      margin-top: 11px;
+      font-size: 16px;
+      line-height: 1.35;
+      gap: 8px;
+    }
+
+    body.phone-mode .event-actions .needed-help,
+    body.phone-mode .needed-help {
+      width: 40px;
+      height: 40px;
+      flex-basis: 40px;
+      font-size: 19px;
+    }
+
+    @media (max-width: 380px) {
+      body.phone-mode .event-row {
+        grid-template-columns: minmax(0, 1fr) minmax(142px, 36%);
+        min-height: 160px;
+        padding: 15px;
+      }
+
+      body.phone-mode .event-info-side {
+        grid-template-columns: 70px minmax(0, 1fr);
+        gap: 12px;
+      }
+
+      body.phone-mode .date-tile {
+        width: 70px;
+        height: 70px;
+        border-radius: 18px;
+      }
+
+      body.phone-mode .date-tile .mon {
+        font-size: 13px;
+      }
+
+      body.phone-mode .date-tile .day {
+        font-size: 30px;
+      }
+
+      body.phone-mode .event-main h3 {
+        font-size: 23px;
+      }
+
+      body.phone-mode .event-meta {
+        font-size: 14px;
+        gap: 6px;
+      }
+    }
+
+    .help-dot {
+      display: inline-grid;
+      place-items: center;
+      width: 19px;
+      height: 19px;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      color: var(--muted);
+      background: var(--panel-2);
+      font-size: 12px;
+      font-weight: 950;
+      position: relative;
+      cursor: help;
+      padding: 0;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .help-dot:hover,
+    .help-dot:focus-visible {
+      color: white;
+      border-color: var(--blue);
+      background: var(--blue-soft);
+      outline: none;
+    }
+
+    .help-dot:hover::after {
+      content: attr(data-help);
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 9px);
+      transform: translateX(-50%);
+      width: 240px;
+      padding: 9px 10px;
+      border-radius: 12px;
+      background: rgba(18, 29, 50, .98);
+      border: 1px solid var(--line-strong);
+      color: #cbd5e1;
+      font-size: 12px;
+      line-height: 1.35;
+      box-shadow: 0 16px 40px rgba(0,0,0,.45);
+      z-index: 80;
+    }
+
+    .help-dot:hover::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 3px);
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--line-strong);
+      z-index: 81;
+    }
+
+
+    @media (hover: none), (pointer: coarse) {
+      .needed-help:hover::before,
+      .needed-help:hover::after,
+      .help-dot:hover::before,
+      .help-dot:hover::after {
+        display: none;
+      }
+    }
+  
+
+    /* True phone layout. This is applied both by CSS width and by JS adding body.phone-mode. */
+    @media (max-width: 640px) {
+      body {
+        -webkit-text-size-adjust: 100%;
+      }
+    }
+
+    body.phone-mode {
+      font-size: 16px;
+    }
+
+    body.phone-mode .topbar {
+      height: auto;
+      position: sticky;
+    }
+
+    body.phone-mode .topbar-inner {
+      min-height: 0;
+      padding: 10px 14px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+    }
+
+    body.phone-mode .brand {
+      min-width: 0;
+      gap: 9px;
+    }
+
+    body.phone-mode .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      font-size: 16px;
+    }
+
+    body.phone-mode .brand-icon {
+      width: 23px;
+      height: 23px;
+    }
+
+    body.phone-mode .brand h1 {
+      font-size: 17px;
+      line-height: 1.08;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    body.phone-mode .brand small {
+      font-size: 11px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    body.phone-mode .nav {
+      width: auto;
+      display: flex;
+      gap: 7px;
+      justify-content: flex-end;
+    }
+
+    body.phone-mode:not(.is-admin-user) .nav {
+      display: none;
+    }
+
+    body.phone-mode .nav-btn {
+      min-height: 36px;
+      border-radius: 13px;
+      font-size: 13px;
+      padding: 8px 10px;
+      justify-content: center;
+    }
+
+    body.phone-mode .main {
+      width: 100%;
+      max-width: none;
+      padding: 18px 16px 22px;
+    }
+
+    body.phone-mode .page-head,
+    body.phone-mode .event-summary-top {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 0;
+    }
+
+    body.phone-mode .page-head {
+      margin-bottom: 14px;
+    }
+
+    body.phone-mode .page-title h2 {
+      font-size: 32px;
+      line-height: 1;
+    }
+
+    body.phone-mode .page-title p {
+      font-size: 16px;
+      line-height: 1.35;
+      margin-top: 8px;
+    }
+
+    body.phone-mode .compact-grid,
+    body.phone-mode .admin-layout {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    body.phone-mode .side-stack {
+      grid-template-columns: 1fr;
+      gap: 11px;
+    }
+
+    body.phone-mode .panel {
+      border-radius: 20px;
+    }
+
+    body.phone-mode .collapsible-head {
+      min-height: 60px;
+      padding: 16px 17px;
+    }
+
+    body.phone-mode .collapsible-title {
+      font-size: 15px;
+      letter-spacing: .04em;
+    }
+
+    body.phone-mode .collapsible-arrow {
+      width: 34px;
+      height: 34px;
+      flex-basis: 34px;
+    }
+
+    body.phone-mode .collapsible-body {
+      padding: 0 16px 16px;
+    }
+
+    body.phone-mode .signup-row {
+      padding: 13px;
+      border-radius: 15px;
+      gap: 10px;
+    }
+
+    body.phone-mode .signup-row strong {
+      font-size: 16px;
+      line-height: 1.15;
+    }
+
+    body.phone-mode .signup-row span {
+      font-size: 14px;
+      line-height: 1.3;
+    }
+
+    body.phone-mode .event-control-row {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 11px;
+      margin-bottom: 13px;
+    }
+
+    body.phone-mode .filters,
+    body.phone-mode .event-control-row .toolbar {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+      margin-bottom: 0;
+    }
+
+    body.phone-mode .seg-btn,
+    body.phone-mode .toolbar .btn.small,
+    body.phone-mode .btn.small {
+      min-height: 48px;
+      border-radius: 16px;
+      font-size: 15px;
+      padding: 10px 12px;
+      justify-content: center;
+    }
+
+    body.phone-mode .events-list {
+      gap: 14px;
+    }
+
+    body.phone-mode .event-row {
+      grid-template-columns: minmax(0, 1fr) minmax(168px, 40%);
+      gap: 15px;
+      padding: 18px;
+      border-radius: 22px;
+      align-items: stretch;
+      min-height: 156px;
+    }
+
+    body.phone-mode .event-row:hover {
+      transform: none;
+    }
+
+    body.phone-mode .event-info-side {
+      grid-template-columns: 72px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    body.phone-mode .date-tile {
+      width: 72px;
+      height: 72px;
+      border-radius: 19px;
+    }
+
+    body.phone-mode .date-tile .mon {
+      font-size: 14px;
+    }
+
+    body.phone-mode .date-tile .day {
+      font-size: 30px;
+    }
+
+    body.phone-mode .event-main h3 {
+      font-size: 24px;
+      line-height: 1.12;
+      word-break: normal;
+      overflow-wrap: anywhere;
+    }
+
+    body.phone-mode .event-meta {
+      margin-top: 9px;
+      gap: 7px;
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    body.phone-mode .event-actions {
+      grid-column: auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(3, minmax(0, 1fr));
+      align-content: stretch;
+      align-self: stretch;
+      gap: 10px;
+      width: 100%;
+      min-width: 0;
+      height: 100%;
+    }
+
+    body.phone-mode .event-actions .pill,
+    body.phone-mode .event-actions .btn.small {
+      width: 100%;
+      height: 100%;
+      min-height: 46px;
+      padding: 10px 12px;
+      font-size: 14px;
+      border-radius: 999px;
+      justify-content: center;
+      white-space: normal;
+      text-align: center;
+      line-height: 1.24;
+    }
+
+    body.phone-mode .event-actions .pill.blue {
+      overflow: visible;
+      text-overflow: clip;
+    }
+
+    body.phone-mode .event-actions .needed-pill {
+      gap: 10px;
+      padding: 8px 9px 8px 14px;
+      display: flex;
+      flex-wrap: nowrap;
+    }
+
+    body.phone-mode .event-actions .needed-pill > span:first-child {
+      min-width: 0;
+    }
+
+    body.phone-mode .event-actions .needed-help,
+    body.phone-mode .needed-help {
+      width: 38px;
+      height: 38px;
+      font-size: 18px;
+      border-width: 2px;
+      flex: 0 0 38px;
+    }
+
+    body.phone-mode .event-actions .btn.small {
+      min-width: 0;
+      font-size: 14px;
+      font-weight: 950;
+    }
+
+
+    @media (max-width: 380px) {
+      body.phone-mode .event-row {
+        grid-template-columns: 1fr minmax(150px, 40%);
+        padding: 15px;
+        gap: 12px;
+        min-height: 148px;
+      }
+
+      body.phone-mode .event-info-side {
+        grid-template-columns: 60px minmax(0, 1fr);
+        gap: 11px;
+      }
+
+      body.phone-mode .date-tile {
+        width: 58px;
+        height: 58px;
+      }
+
+      body.phone-mode .event-main h3 {
+        font-size: 20px;
+      }
+
+      body.phone-mode .event-actions .pill,
+      body.phone-mode .event-actions .btn.small {
+        min-height: 42px;
+        font-size: 12px;
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+
+      body.phone-mode .event-actions .needed-help,
+      body.phone-mode .needed-help {
+        width: 34px;
+        height: 34px;
+        flex-basis: 34px;
+        font-size: 16px;
+      }
+    }
+
+    body.phone-mode .event-summary-card {
+      padding: 14px;
+      margin-top: 14px;
+      border-radius: 20px;
+    }
+
+    body.phone-mode .event-summary-card h2 {
+      font-size: 30px;
+      line-height: 1.08;
+      margin-top: 12px;
+    }
+
+    body.phone-mode .event-summary-card p {
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    body.phone-mode .event-summary-card .toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    body.phone-mode .pill,
+    body.phone-mode .layout-pill-button {
+      min-height: 36px;
+      padding: 8px 11px;
+      font-size: 13px;
+      border-radius: 999px;
+    }
+
+    body.phone-mode .layout-pill-button {
+      justify-content: center;
+    }
+
+    body.phone-mode .role-sections {
+      gap: 14px;
+    }
+
+    body.phone-mode .dept-section {
+      border-radius: 20px;
+    }
+
+    body.phone-mode .dept-head {
+      padding: 14px;
+    }
+
+    body.phone-mode .dept-head h3 {
+      font-size: 18px;
+    }
+
+    body.phone-mode .roles-grid,
+    body.phone-mode .builder-roles {
+      grid-template-columns: 1fr;
+      padding: 12px;
+      gap: 12px;
+    }
+
+    body.phone-mode .role-card {
+      min-height: 188px;
+      padding: 14px;
+      border-radius: 18px;
+      gap: 12px;
+    }
+
+    body.phone-mode .role-info-layout {
+      grid-template-columns: minmax(0, 1fr) 72px;
+      gap: 12px;
+    }
+
+    body.phone-mode .role-card h4,
+    body.phone-mode .role-info-main h4 {
+      font-size: 20px;
+      line-height: 1.12;
+      margin-bottom: 8px;
+    }
+
+    body.phone-mode .role-chip-row {
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    body.phone-mode .role-chip {
+      min-height: 25px;
+      padding: 5px 8px;
+      font-size: 11px;
+      border-radius: 999px;
+    }
+
+    body.phone-mode .person-line {
+      margin-top: 12px;
+      font-size: 15px;
+      line-height: 1.4;
+      gap: 0 7px;
+    }
+
+    body.phone-mode .role-status-stack {
+      width: 72px;
+      gap: 7px;
+    }
+
+    body.phone-mode .role-count-badge {
+      width: 72px;
+      height: 46px;
+      border-radius: 18px;
+      font-size: 20px;
+    }
+
+    body.phone-mode .role-limit-chip {
+      width: 68px;
+      min-height: 27px;
+      font-size: 12px;
+      border-radius: 999px;
+    }
+
+    body.phone-mode .role-sub,
+    body.phone-mode .locked-note {
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    body.phone-mode .role-actions .btn {
+      min-height: 48px;
+      font-size: 16px;
+      border-radius: 15px;
+    }
+
+    body.phone-mode input,
+    body.phone-mode select,
+    body.phone-mode textarea {
+      min-height: 48px;
+      font-size: 16px;
+      border-radius: 14px;
+    }
+
+    body.phone-mode .form-grid {
+      grid-template-columns: 1fr;
+    }
+
+    body.phone-mode .field,
+    body.phone-mode .field.span-2,
+    body.phone-mode .field.span-3,
+    body.phone-mode .field.span-6 {
+      grid-column: span 1;
+    }
+
+    body.phone-mode .admin-menu {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    body.phone-mode .admin-menu button {
+      width: 100%;
+      min-width: 0;
+      min-height: 48px;
+      margin-bottom: 0;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+
+    body.phone-mode .table-row,
+    body.phone-mode .copy-result,
+    body.phone-mode .staffing-event-card {
+      grid-template-columns: 1fr !important;
+      gap: 10px;
+      align-items: stretch;
+      padding: 13px;
+      border-radius: 16px;
+    }
+
+    body.phone-mode .table-row select,
+    body.phone-mode .table-row .btn,
+    body.phone-mode .copy-result .btn,
+    body.phone-mode .staffing-event-card .toolbar {
+      width: 100%;
+    }
+
+    body.phone-mode .staffing-person {
+      grid-template-columns: 1fr;
+      gap: 9px;
+      padding: 11px;
+    }
+
+    body.phone-mode .staffing-person .btn {
+      max-width: none;
+      width: 100%;
+    }
+
+    body.phone-mode .sticky-action-bar {
+      left: 12px;
+      right: 12px;
+      bottom: calc(12px + env(safe-area-inset-bottom));
+      border-radius: 18px;
+    }
+
+    body.phone-mode .sticky-action-inner {
+      grid-template-columns: 1fr;
+      padding: 12px;
+      gap: 10px;
+    }
+
+    body.phone-mode .sticky-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    body.phone-mode .toast-stack {
+      left: 14px;
+      right: 14px;
+      bottom: calc(82px + env(safe-area-inset-bottom));
+      width: auto;
+    }
+
+    body.phone-mode .toast {
+      border-radius: 17px;
+      padding: 13px 14px 13px 16px;
+    }
+
+    body.phone-mode .toast-title {
+      font-size: 15px;
+    }
+
+    body.phone-mode .toast-message {
+      font-size: 14px;
+    }
+
+    @media (max-width: 640px) {
+      body:not(.phone-mode) .topbar-inner,
+      body:not(.phone-mode) .page-head,
+      body:not(.phone-mode) .event-summary-top {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    body.phone-mode .event-status-actions {
+      min-width: 0;
+      width: 100%;
+    }
+
+    body.phone-mode .event-availability-actions {
+      grid-template-columns: 1fr;
+    }
+
+    body.phone-mode .event-availability-actions .btn {
+      min-height: 48px;
+      font-size: 15px;
+      border-radius: 16px;
+    }
+
+    body.phone-mode .availability-list,
+    body.phone-mode .not-signed-grid {
+      grid-template-columns: 1fr;
+    }
+
+</style>
+</head>
+
+<body>
+  <div id="toastStack" class="toast-stack"></div>
+
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg class="brand-icon" viewBox="0 0 100 100">
+              <rect x="25" y="24" width="50" height="56" rx="8" fill="none" stroke="currentColor" stroke-width="7"/>
+              <rect x="38" y="15" width="24" height="15" rx="5" fill="currentColor"/>
+              <path d="M35 43l6 6 13-15" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M35 61h30" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <h1>Tech Crew Sign Up</h1>
+            <small id="userEmail">Loading...</small>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <button class="nav-btn active" id="dashNav" onclick="showPage('dashboard')">Dashboard</button>
+          <button class="nav-btn" id="adminNav" onclick="showPage('admin')" style="display:none;">Admin</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="main">
+      <div id="loading" class="notice">Loading Tech Crew Sign Up...</div>
+
+      <section id="dashboardPage" style="display:none;">
+        <div class="page-head">
+          <div class="page-title">
+            <h2>Events</h2>
+            <p>Sign up for upcoming tech crew roles.</p>
+          </div>
+        </div>
+
+        <div class="compact-grid">
+          <aside class="side-stack">
+            <div class="panel collapsible-panel" id="profilePanel">
+              <button class="collapsible-head" type="button" onclick="toggleDashboardPanel('profile')">
+                <p class="collapsible-title">Profile</p>
+                <span class="collapsible-arrow">›</span>
+              </button>
+
+              <div class="collapsible-body">
+                <div id="profileBox"></div>
+              </div>
+            </div>
+
+            <div class="panel collapsible-panel" id="signupsPanel">
+              <button class="collapsible-head" type="button" onclick="toggleDashboardPanel('signups')">
+                <p class="collapsible-title">My signups</p>
+                <span class="collapsible-arrow">›</span>
+              </button>
+
+              <div class="collapsible-body">
+                <div class="signup-mini" id="mySignups"></div>
+              </div>
+            </div>
+          </aside>
+
+          <section>
+            <div class="event-control-row">
+              <div class="filters" id="eventFilters"></div>
+
+              <div class="toolbar">
+                <button class="btn ghost small" onclick="refreshState()">Refresh</button>
+                <button class="btn ghost small" id="pastToggle" onclick="togglePastEvents()">See past events</button>
+              </div>
+            </div>
+
+            <div class="events-list" id="eventsList"></div>
+          </section>
+        </div>
+      </section>
+
+      <section id="eventPage" class="event-view"></section>
+
+      <section id="adminPage" style="display:none;">
+        <div class="page-head">
+          <div class="page-title">
+            <h2>Admin</h2>
+            <p>Create events, choose roles, and manage the crew list.</p>
+          </div>
+
+          <button class="btn ghost small" onclick="showPage('dashboard')">Back to dashboard</button>
+        </div>
+
+        <div class="admin-layout">
+          <aside class="panel admin-menu">
+            <button class="active" onclick="showAdminTab('create', this)">Create event <span>+</span></button>
+            <button onclick="showAdminTab('events', this)">Events <span id="adminEventCount">0</span></button>
+            <button onclick="showAdminTab('staffing', this)">Staffing <span id="adminStaffingCount">0</span></button>
+            <button onclick="showAdminTab('users', this)">Users <span id="adminUserCount">0</span></button>
+            <button onclick="showAdminTab('activity', this)">Activity <span>↺</span></button>
+          </aside>
+
+          <div>
+            <section id="admin-create" class="admin-screen active"></section>
+            <section id="admin-events" class="admin-screen"></section>
+            <section id="admin-staffing" class="admin-screen"></section>
+            <section id="admin-users" class="admin-screen"></section>
+            <section id="admin-activity" class="admin-screen"></section>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    let state = {
+      user: null,
+      isAdmin: false,
+      events: [],
+      pastEvents: [],
+      mySignups: [],
+      roles: [],
+      roleTemplates: [],
+      admin: null
+    };
+
+    let filter = "All";
+
+    let showPast = false;
+    let editingEventId = "";
+    let staffingEventId = "";
+    let adminUserSearch = "";
+
+    let dashboardPanels = {
+      profile: null,
+      signups: null
+    };
+
+    const TRAINING_TAGS = [
+      {
+        id: "lighting_operator",
+        name: "Lighting Operator",
+        description: "Can operate lighting desk"
+      },
+      {
+        id: "sound_operator",
+        name: "Sound Operator",
+        description: "Can operate sound desk"
+      },
+      {
+        id: "stage_manager",
+        name: "Stage Manager",
+        description: "Can lead stage crew and manage backstage"
+      },
+      {
+        id: "vision_mixer",
+        name: "Vision Mixer",
+        description: "Can operate the vision mixing desk"
+      },
+      {
+        id: "media_director",
+        name: "Media Director",
+        description: "Can direct cameras / media team"
+      }
+    ];
+
+    function trainingTagName(tagId) {
+      const tag = TRAINING_TAGS.find(t => String(t.id) === String(tagId));
+      return tag ? tag.name : tagId;
+    }
+
+    function trainingTagDescription(tagId) {
+      const tag = TRAINING_TAGS.find(t => String(t.id) === String(tagId));
+      return tag ? tag.description : "";
+    }
+
+
+    const YEAR_GROUPS = [
+      "N/A",
+      "Year 7",
+      "Year 8",
+      "Year 9",
+      "Year 10",
+      "Year 11",
+      "Year 12",
+      "Year 13",
+      "Staff",
+      "Archived"
+    ];
+
+    function normaliseYearGroupDisplay(value) {
+      const raw = String(value || "").trim();
+
+      if (!raw) return "";
+      if (raw.toLowerCase() === "n/a") return "N/A";
+      if (raw.toLowerCase() === "na") return "N/A";
+
+      if (raw.toLowerCase() === "teacher") return "Staff";
+      if (raw.toLowerCase() === "staff") return "Staff";
+      if (raw.toLowerCase() === "technician") return "Staff";
+      if (raw.toLowerCase() === "tech") return "Staff";
+      if (raw.toLowerCase() === "support staff") return "Staff";
+      if (raw.toLowerCase() === "admin") return "Staff";
+
+      const match = raw.match(/(\d+)/);
+
+      if (match) {
+        const year = Number(match[1]);
+
+        if (year >= 7 && year <= 13) {
+          return `Year ${year}`;
+        }
+      }
+
+      return raw;
+    }
+
+    function yearGroupOptions(selectedValue, includeArchived = true) {
+      const selected = normaliseYearGroupDisplay(selectedValue);
+      const options = includeArchived ? YEAR_GROUPS : YEAR_GROUPS.filter(group => group !== "Archived");
+
+      return options.map(group => `
+        <option value="${escapeAttr(group)}" ${group === selected ? "selected" : ""}>
+          ${escapeHtml(group)}
+        </option>
+      `).join("");
+    }
+
+    function serverCall(name, args = []) {
+      return new Promise((resolve, reject) => {
+        if (!window.google || !google.script || !google.script.run) {
+          reject(new Error("This file needs to run inside Apps Script."));
+          return;
+        }
+
+        google.script.run
+          .withSuccessHandler(resolve)
+          .withFailureHandler(reject)[name](...args);
+      });
+    }
+
+    async function loadApp() {
+      try {
+        const data = await serverCall("getInitialData");
+
+        if (!data || !data.ok) {
+          throw new Error("The server returned no data.");
+        }
+
+        if (!data.allowed) {
+          renderBlocked(data.reason);
+          return;
+        }
+
+        state = data;
+
+        applyResponsiveMode();
+        resetDashboardPanelDefaults();
+
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("dashboardPage").style.display = "block";
+        document.getElementById("userEmail").textContent = state.user.email;
+        document.getElementById("adminNav").style.display = state.isAdmin ? "inline-flex" : "none";
+        document.body.classList.toggle("is-admin-user", !!state.isAdmin);
+
+        render();
+        queueDashboardPanelRender();
+      } catch (error) {
+        renderFatalError(error);
+      }
+    }
+
+    function renderBlocked(reason) {
+      document.getElementById("loading").className = "notice error";
+      document.getElementById("loading").innerHTML = escapeHtml(reason || "Access blocked.");
+      document.getElementById("userEmail").textContent = "Access blocked";
+    }
+
+    function renderFatalError(error) {
+      document.getElementById("loading").className = "notice error";
+      document.getElementById("loading").innerHTML = "Error: " + escapeHtml(error.message || error);
+    }
+
+    function render() {
+      renderFilters();
+      renderProfile();
+      renderMySignups();
+      renderEvents();
+      renderDashboardPanels();
+
+      if (state.isAdmin && state.admin) {
+        renderAdmin();
+      }
+    }
+
+    function renderLayoutPill(layoutLink) {
+      const link = String(layoutLink || "").trim();
+
+      if (!link) return "";
+
+      return `
+        <a
+          class="layout-pill-button"
+          target="_blank"
+          rel="noopener"
+          href="${escapeAttr(link)}"
+        >
+          Open layout ↗
+        </a>
+      `;
+    }
+
+    function renderInputListPill(inputListLink) {
+      const link = String(inputListLink || "").trim();
+
+      if (!link) return "";
+
+      return `
+        <a
+          class="layout-pill-button"
+          target="_blank"
+          rel="noopener"
+          href="${escapeAttr(link)}"
+        >
+          Open input list ↗
+        </a>
+      `;
+    }
+
+    function renderProfile() {
+      const u = state.user;
+
+      if (!u.profileComplete) {
+        document.getElementById("profileBox").innerHTML = `
+          <div class="notice" style="text-align:left; padding:12px;">
+            <strong>Complete your profile</strong>
+            <p style="margin:6px 0 10px; color:var(--muted);">Add your name and year group before signing up.</p>
+
+            <div class="field">
+              <label>Name</label>
+              <input id="profileName" placeholder="Your Full Name">
+            </div>
+
+            <div class="field" style="margin-top:8px;">
+              <label>Year group</label>
+              <select id="profileYear">
+                <option value="">Choose year</option>
+                <option>N/A</option>
+                <option>Year 7</option>
+                <option>Year 8</option>
+                <option>Year 9</option>
+                <option>Year 10</option>
+                <option>Year 11</option>
+                <option>Year 12</option>
+                <option>Year 13</option>
+                <option>Staff</option>
+              </select>
+            </div>
+
+            <button class="btn primary small" style="margin-top:10px;" onclick="saveProfile()">Save profile</button>
+          </div>
+        `;
+        return;
+      }
+
+      document.getElementById("profileBox").innerHTML = `
+        <div class="signup-row">
+          <div>
+            <strong>${escapeHtml(u.name)}</strong>
+            <span>${escapeHtml(u.yearGroup)}${u.isAdmin ? " · Admin" : ""}</span>
+          </div>
+          <span class="pill green">Complete</span>
+        </div>
+      `;
+    }
+
+    async function saveProfile() {
+      try {
+        setBusy(true);
+
+        const data = await serverCall("saveMyProfile", [{
+          name: document.getElementById("profileName").value,
+          yearGroup: document.getElementById("profileYear").value
+        }]);
+
+        state = data;
+        render();
+        showToast("Profile saved", "Your profile has been updated.", "success", 3000);
+      } catch (error) {
+        showToast("Could not save profile", error.message || error, "error", 4500);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    function renderFilters() {
+      const tags = ["All", "Concert", "Drama", "Collect", "Musical", "Spotlight", "Other"];
+
+      document.getElementById("eventFilters").innerHTML = tags.map(tag => `
+        <button class="seg-btn ${filter === tag ? "active" : ""}" onclick="setFilter('${tag}')">${tag}</button>
+      `).join("");
+    }
+
+    function renderMySignups() {
+      const mine = state.mySignups.filter(s => showPast ? isPastISO(s.DateISO) : !isPastISO(s.DateISO));
+
+      document.getElementById("mySignups").innerHTML = mine.length ? mine.map(s => `
+        <div class="signup-row" onclick="openEvent('${escapeAttr(s.EventID)}')" style="cursor:pointer;">
+          <div>
+            <strong>${escapeHtml(s.EventTitle)}</strong>
+            <span>${escapeHtml(s.RoleName)} · ${escapeHtml(shortDate(s.Date))}</span>
+          </div>
+          <span class="pill green">Main</span>
+        </div>
+      `).join("") : `<div class="empty">No signups yet.</div>`;
+    }
+
+    function dashboardViewportWidth() {
+      const candidates = [];
+
+      if (window.visualViewport && window.visualViewport.width) {
+        candidates.push(window.visualViewport.width);
+      }
+
+      if (window.innerWidth) {
+        candidates.push(window.innerWidth);
+      }
+
+      if (document.documentElement && document.documentElement.clientWidth) {
+        candidates.push(document.documentElement.clientWidth);
+      }
+
+      const dashboard = document.getElementById("dashboardPage");
+      if (dashboard && dashboard.getBoundingClientRect().width) {
+        candidates.push(dashboard.getBoundingClientRect().width);
+      }
+
+      const main = document.querySelector(".main");
+      if (main && main.getBoundingClientRect().width) {
+        candidates.push(main.getBoundingClientRect().width);
+      }
+
+      const valid = candidates
+        .map(value => Number(value))
+        .filter(value => Number.isFinite(value) && value > 0);
+
+      return valid.length ? Math.min(...valid) : 9999;
+    }
+
+    function isMobileDeviceLike() {
+      const ua = String(navigator.userAgent || "");
+      const mobileUa = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+      const iPadLike = /Macintosh/i.test(ua) && navigator.maxTouchPoints > 1;
+      const coarsePointer = window.matchMedia
+        ? window.matchMedia("(hover: none) and (pointer: coarse)").matches
+        : false;
+
+      const screenWidth = Math.min(
+        Number(screen.width || 9999),
+        Number(screen.availWidth || 9999)
+      );
+
+      return mobileUa || (iPadLike && screenWidth <= 900) || (coarsePointer && screenWidth <= 760);
+    }
+
+    function isPhoneMode() {
+      return dashboardViewportWidth() <= 640 || isMobileDeviceLike();
+    }
+
+    function applyResponsiveMode() {
+      const phoneMode = isPhoneMode();
+      const isAdmin = !!state.isAdmin;
+
+      document.body.classList.toggle("phone-mode", phoneMode);
+      document.body.classList.toggle("is-admin", isAdmin);
+      document.body.classList.toggle("not-admin", !isAdmin);
+    }
+
+    function isMobileDashboard() {
+      return isPhoneMode();
+    }
+
+    function resetDashboardPanelDefaults() {
+      dashboardPanels = {
+        profile: null,
+        signups: null
+      };
+
+      if (isMobileDashboard()) {
+        dashboardPanels.profile = state.user && !state.user.profileComplete;
+        dashboardPanels.signups = false;
+      }
+    }
+
+    function isDashboardPanelOpen(panelName) {
+      if (dashboardPanels[panelName] !== null) {
+        return dashboardPanels[panelName];
+      }
+
+      if (panelName === "profile" && state.user && !state.user.profileComplete) {
+        return true;
+      }
+
+      return !isMobileDashboard();
+    }
+
+    function toggleDashboardPanel(panelName) {
+      dashboardPanels[panelName] = !isDashboardPanelOpen(panelName);
+      renderDashboardPanels();
+    }
+
+    function renderDashboardPanels() {
+      const panels = [
+        {
+          key: "profile",
+          element: document.getElementById("profilePanel")
+        },
+        {
+          key: "signups",
+          element: document.getElementById("signupsPanel")
+        }
+      ];
+
+      panels.forEach(item => {
+        if (!item.element) return;
+
+        const isOpen = isDashboardPanelOpen(item.key);
+        const arrow = item.element.querySelector(".collapsible-arrow");
+        const body = item.element.querySelector(".collapsible-body");
+        const button = item.element.querySelector(".collapsible-head");
+
+        item.element.classList.toggle("open", isOpen);
+        item.element.dataset.open = isOpen ? "true" : "false";
+
+        if (body) {
+          body.hidden = !isOpen;
+          body.style.display = isOpen ? "" : "none";
+          body.setAttribute("aria-hidden", String(!isOpen));
+        }
+
+        if (arrow) {
+          arrow.textContent = "";
+          arrow.setAttribute("aria-hidden", "true");
+        }
+
+        if (button) {
+          button.setAttribute("aria-expanded", String(isOpen));
+          button.setAttribute("aria-label", `${isOpen ? "Collapse" : "Expand"} ${item.key === "profile" ? "profile" : "my signups"}`);
+        }
+      });
+    }
+
+    function queueDashboardPanelRender() {
+      applyResponsiveMode();
+      renderDashboardPanels();
+      requestAnimationFrame(() => {
+        applyResponsiveMode();
+        renderDashboardPanels();
+      });
+      setTimeout(() => {
+        applyResponsiveMode();
+        renderDashboardPanels();
+      }, 80);
+    }
+
+    function renderEvents() {
+      const source = showPast ? state.pastEvents : state.events;
+      const visible = source.filter(e => filter === "All" || e.Tag === filter);
+
+      document.getElementById("eventsList").innerHTML = visible.length ? visible.map(e => {
+        const d = e.DateParts || { mon: "", day: "", full: e.Date };
+
+        const status = renderNeededPill(e);
+
+        const signup = renderDashboardUserStatusPill(e);
+
+        return `
+          <article class="event-row" onclick="openEvent('${escapeAttr(e.EventID)}')">
+            <div class="event-info-side">
+              <div class="date-tile">
+                <div>
+                  <div class="mon">${escapeHtml(d.mon)}</div>
+                  <div class="day">${escapeHtml(d.day)}</div>
+                </div>
+              </div>
+
+              <div class="event-main">
+                <h3>${escapeHtml(e.Title)}</h3>
+                <div class="event-meta">
+                  <span>${escapeHtml(e.Tag)}</span>
+                  <span>•</span>
+                  <span>${escapeHtml(shortDate(e.Date))}</span>
+                  <span>•</span>
+                  <span>${escapeHtml(e.StartTime)}–${escapeHtml(e.EndTime)}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="event-actions">
+              ${signup}
+              ${status}
+              <button class="btn small" onclick="event.stopPropagation(); openEvent('${escapeAttr(e.EventID)}')">Open</button>
+            </div>
+          </article>
+        `;
+      }).join("") : `<div class="empty">No events match this view.</div>`;
+    }
+
+    function setFilter(tag) {
+      filter = tag;
+      renderFilters();
+      renderEvents();
+    }
+
+    function togglePastEvents() {
+      showPast = !showPast;
+      document.getElementById("pastToggle").textContent = showPast ? "See upcoming events" : "See past events";
+      renderMySignups();
+      renderEvents();
+    }
+
+    function isPastISO(dateISO) {
+      if (!dateISO) return false;
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const d = new Date(dateISO + "T00:00:00");
+
+      return d < today;
+    }
+
+    async function showPage(page) {
+      document.getElementById("dashboardPage").style.display = page === "dashboard" ? "block" : "none";
+      document.getElementById("adminPage").style.display = page === "admin" ? "block" : "none";
+      document.getElementById("eventPage").classList.remove("active");
+
+      document.getElementById("dashNav").classList.toggle("active", page === "dashboard");
+      document.getElementById("adminNav").classList.toggle("active", page === "admin");
+
+      if (page === "admin" && state.isAdmin && !state.admin) {
+        try {
+          setBusy(true);
+          document.getElementById("admin-create").innerHTML = `<div class="notice">Loading admin tools...</div>`;
+          state.admin = await serverCall("getAdminData");
+          renderAdmin();
+        } catch (error) {
+          document.getElementById("admin-create").innerHTML = `
+            <div class="notice error">${escapeHtml(error.message || error)}</div>
+          `;
+        } finally {
+          setBusy(false);
+        }
+      }
+    }
+
+    async function openEvent(eventId) {
+      try {
+        setBusy(true);
+        renderEventLoading();
+
+        const data = await serverCall("getEventDetails", [eventId]);
+        renderEventPage(data);
+      } catch (error) {
+        showToast("Could not open event", error.message || error, "error", 4500);
+
+        document.getElementById("eventPage").innerHTML = `
+          <button class="btn ghost small" onclick="showPage('dashboard')">← Back to events</button>
+
+          <div class="notice error" style="margin-top:12px;">
+            ${escapeHtml(error.message || error)}
+          </div>
+        `;
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    function renderEventLoading() {
+      document.getElementById("dashboardPage").style.display = "none";
+      document.getElementById("adminPage").style.display = "none";
+      document.getElementById("eventPage").classList.add("active");
+      document.getElementById("dashNav").classList.remove("active");
+      document.getElementById("adminNav").classList.remove("active");
+
+      document.getElementById("eventPage").innerHTML = `
+        <button class="btn ghost small" onclick="showPage('dashboard')">← Back to events</button>
+
+        <div class="notice" style="margin-top:12px;">
+          <strong>Loading event...</strong>
+        </div>
+      `;
+    }
+
+
+    function renderDashboardUserStatusPill(e) {
+      const availability = e.MyAvailability || null;
+      const status = String(availability && availability.Status || "").trim().toLowerCase();
+
+      if (status === "performing") {
+        return `<span class="pill amber">You: Performing</span>`;
+      }
+
+      if (status === "unavailable") {
+        return `<span class="pill red">You: Unavailable</span>`;
+      }
+
+      if (e.SignedUp) {
+        return `<span class="pill blue">You: ${escapeHtml(e.MyRoles.join(", "))}</span>`;
+      }
+
+      return "";
+    }
+
+    function renderEventAvailabilityControls(e) {
+      const availability = e.MyAvailability || null;
+
+      if (availability && availability.Status) {
+        return `
+          <div class="event-status-actions">
+            <span class="pill ${availability.Status === "Performing" ? "blue" : "amber"} event-signed-pill">
+              ${availability.Status === "Performing" ? "You are attending, but performing" : "You are unavailable"}
+            </span>
+
+            <div class="event-availability-actions">
+              <button class="btn small undo" onclick="clearMyAvailability('${escapeAttr(e.EventID)}')">Undo marker</button>
+            </div>
+          </div>
+        `;
+      }
+
+      const statusPill = e.SignedUp
+        ? `<span class="pill green event-signed-pill">You are signed up: ${escapeHtml(e.MyRoles.join(", "))}</span>`
+        : `<span class="pill amber event-signed-pill">Not signed up</span>`;
+
+      return `
+        <div class="event-status-actions">
+          ${statusPill}
+
+          <div class="event-availability-actions">
+            <button class="btn small performing" onclick="setMyAvailability('${escapeAttr(e.EventID)}', 'Performing')">Attending, but performing</button>
+            <button class="btn small unavailable" onclick="setMyAvailability('${escapeAttr(e.EventID)}', 'Unavailable')">I am unavailable</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderEventPage(data) {
+      const e = data.event;
+
+      const sections = data.roles.map(section => {
+        const roleCount = section.roles.length;
+        const hasUnlimited = section.roles.some(role => role.IsUnlimited);
+        const peopleCount = section.roles.reduce((total, role) => {
+          if (role.IsUnlimited) return total;
+          return total + Number(role.MaxPeople || 0);
+        }, 0);
+        const peopleLabel = hasUnlimited
+          ? peopleCount > 0
+            ? `${peopleCount}+ ${peopleCount === 1 ? "person" : "people"} max`
+            : "Unlimited max"
+          : `${peopleCount} ${peopleCount === 1 ? "person" : "people"} max`;
+
+        return `
+          <section class="dept-section">
+            <div class="dept-head">
+              <h3>${escapeHtml(section.name)}</h3>
+
+              <div class="toolbar">
+                <span class="pill">${roleCount} ${roleCount === 1 ? "role" : "roles"}</span>
+                <span class="pill">${escapeHtml(peopleLabel)}</span>
+              </div>
+            </div>
+
+            <div class="roles-grid">
+              ${section.roles.map(r => roleCard(r, data.mySignups)).join("")}
+            </div>
+          </section>
+        `;
+      }).join("");
+
+      document.getElementById("dashboardPage").style.display = "none";
+      document.getElementById("adminPage").style.display = "none";
+      document.getElementById("eventPage").classList.add("active");
+      document.getElementById("dashNav").classList.remove("active");
+      document.getElementById("adminNav").classList.remove("active");
+
+      document.getElementById("eventPage").innerHTML = `
+        <button class="btn ghost small" onclick="showPage('dashboard')">← Back to events</button>
+
+        <div class="panel event-summary-card">
+          <div class="event-summary-top">
+            <div>
+              <div class="toolbar">
+                <span class="pill blue">${escapeHtml(e.Tag)}</span>
+                <span class="pill">${escapeHtml(e.Date)}</span>
+                <span class="pill">${escapeHtml(e.StartTime)}–${escapeHtml(e.EndTime)}</span>
+                ${renderLayoutPill(e.LayoutLink)}
+                ${renderInputListPill(e.InputList)}
+              </div>
+
+              <h2>${escapeHtml(e.Title)}</h2>
+              <p style="color:var(--muted); margin:8px 0 0;">${formatMultiline(e.Notes)}</p>
+            </div>
+
+            ${renderEventAvailabilityControls(e)}
+          </div>
+        </div>
+
+        <div class="role-sections">${sections || `<div class="empty">No roles have been added to this event.</div>`}</div>
+      `;
+    }
+
+    function roleCard(r, mySignups) {
+      const signed = mySignups.find(s => String(s.EventRoleID) === String(r.EventRoleID));
+      const full = !r.IsUnlimited && r.SpacesLeft <= 0;
+      const needs = r.Filled < r.MinPeople;
+      const locked = !!r.RequiresTrainingTag && !(state.user.trainingTags || []).includes(r.RequiresTrainingTag);
+
+      const people = r.Signups.length
+        ? r.Signups.map((s, index) => `
+            <span class="person-name-text">
+              ${escapeHtml(s.Name || s.Email)}${index < r.Signups.length - 1 ? "," : ""}
+            </span>
+          `).join("")
+        : `<span class="person-empty">No one yet</span>`;
+
+      return `
+        <div class="role-card ${signed ? "signed" : ""} ${locked ? "locked" : ""}">
+          <div>
+            <div class="role-info-layout">
+              <div class="role-info-main">
+                <h4>${escapeHtml(r.RoleName)}</h4>
+
+                <div class="role-chip-row">
+                  <span class="role-chip ${r.IsOptional ? "optional" : "required"}">
+                    ${r.IsOptional ? "Optional" : "Required"}
+                  </span>
+
+                  <span class="role-chip ${r.RequiresTrainingTag ? "training" : "no-training"}">
+                    ${r.RequiresTrainingTag ? "Training" : "No training"}
+                  </span>
+                </div>
+
+                <div class="person-line">${people}</div>
+              </div>
+
+              <div class="role-status-stack">
+                <span class="role-count-badge ${needs ? "warn" : "good"}">
+                  ${r.IsUnlimited ? r.Filled : `${r.Filled}/${r.MaxPeople}`}
+                </span>
+
+                <span class="role-limit-chip min">Min ${r.MinPeople}</span>
+                <span class="role-limit-chip max">${r.IsUnlimited ? 'Max N/A' : `Max ${r.MaxPeople}`}</span>
+              </div>
+            </div>
+
+            ${r.Notes ? `
+              <div class="role-sub" style="margin-top:8px;">
+                ${escapeHtml(r.Notes)}
+              </div>
+            ` : ""}
+
+            ${locked ? `
+              <div class="locked-note">
+                Requires training: <strong>${escapeHtml(trainingTagName(r.RequiresTrainingTag))}</strong>. Ask a teacher if this is wrong.
+              </div>
+            ` : ""}
+          </div>
+
+          <div class="role-actions">
+            ${signed ? `
+              <button class="btn danger" onclick="cancelSignup('${escapeAttr(signed.SignupID)}')">Cancel</button>
+            ` : full ? `
+              <button class="btn unavailable" disabled>Full</button>
+            ` : locked ? `
+              <button class="btn unavailable" disabled>Unavailable</button>
+            ` : `
+              <button class="btn primary" onclick="signUp('${escapeAttr(r.EventID)}','${escapeAttr(r.EventRoleID)}')">Sign up</button>
+            `}
+          </div>
+        </div>
+      `;
+    }
+
+
+    async function setMyAvailability(eventId, status) {
+      const label = status === "Performing" ? "attending, but performing" : "unavailable";
+
+      showConfirmToast(
+        status === "Performing" ? "Mark as performing?" : "Mark as unavailable?",
+        "This will remove any role signups you currently have for this event.",
+        async () => {
+          let workingToast = null;
+
+          try {
+            setBusy(true);
+
+            workingToast = showToast("Updating availability", `Marking you as ${label}...`, "info", 0);
+
+            const data = await serverCall("setMyEventAvailability", [eventId, status]);
+
+            renderEventPage(data);
+            dismissToast(workingToast);
+
+            showToast("Availability updated", `You are now marked as ${label}.`, "success", 3200);
+          } catch (error) {
+            dismissToast(workingToast);
+            showToast("Could not update availability", error.message || error, "error", 5000);
+          } finally {
+            setBusy(false);
+          }
+        }
+      );
+    }
+
+    async function clearMyAvailability(eventId) {
+      let workingToast = null;
+
+      try {
+        setBusy(true);
+
+        workingToast = showToast("Updating availability", "Removing your availability marker...", "info", 0);
+
+        const data = await serverCall("clearMyEventAvailability", [eventId]);
+
+        renderEventPage(data);
+        dismissToast(workingToast);
+
+        showToast("Availability cleared", "You can now sign up to roles again.", "success", 3000);
+      } catch (error) {
+        dismissToast(workingToast);
+        showToast("Could not clear availability", error.message || error, "error", 5000);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    async function signUp(eventId, eventRoleId) {
+      if (!state.user.profileComplete) {
+        showToast("Complete your profile", "Add your name and year group before signing up.", "warning", 4000);
+        return;
+      }
+
+      let workingToast = null;
+
+      try {
+        setBusy(true);
+
+        workingToast = showToast("Signing you up", "One moment...", "info", 0);
+
+        const data = await serverCall("signUpForRole", [eventId, eventRoleId, "Main", ""]);
+
+        const signedRole = data.rolesFlat.find(role => String(role.EventRoleID) === String(eventRoleId));
+        const roleName = signedRole ? signedRole.RoleName : "this role";
+
+        renderEventPage(data);
+        dismissToast(workingToast);
+
+        showToast(
+          "Signup successful",
+          `You are now signed up for ${roleName}.`,
+          "success",
+          3600
+        );
+      } catch (error) {
+        dismissToast(workingToast);
+        showToast("Could not sign up", error.message || error, "error", 4500);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    async function cancelSignup(signupId) {
+      showConfirmToast(
+        "Cancel signup?",
+        "This will remove you from this role.",
+        async () => {
+          let workingToast = null;
+
+          try {
+            setBusy(true);
+
+            workingToast = showToast("Cancelling signup", "One moment...", "info", 0);
+
+            const data = await serverCall("cancelMySignup", [signupId]);
+
+            renderEventPage(data);
+            dismissToast(workingToast);
+
+            showToast("Signup cancelled", "You have been removed from this role.", "success", 3000);
+          } catch (error) {
+            dismissToast(workingToast);
+            showToast("Could not cancel signup", error.message || error, "error", 4500);
+          } finally {
+            setBusy(false);
+          }
+        }
+      );
+    }
+
+    async function refreshState() {
+      try {
+        setBusy(true);
+        const data = await serverCall("getInitialData");
+        state = data;
+        render();
+        showToast("Refreshed", "Latest data loaded.", "success", 2200);
+      } catch (error) {
+        showToast("Could not refresh", error.message || error, "error", 4500);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    function renderAdmin() {
+      document.getElementById("adminEventCount").textContent = state.admin?.events?.length || 0;
+      document.getElementById("adminStaffingCount").textContent = state.admin?.staffing?.length || 0;
+      document.getElementById("adminUserCount").textContent = state.admin?.users?.length || 0;
+
+      renderAdminCreate();
+      renderAdminEvents();
+      renderAdminStaffing();
+      renderAdminUsers();
+      renderAdminActivity();
+    }
+
+    function showAdminTab(tab, button) {
+      document.querySelectorAll(".admin-screen").forEach(s => s.classList.remove("active"));
+      document.getElementById("admin-" + tab).classList.add("active");
+
+      document.querySelectorAll(".admin-menu button").forEach(b => b.classList.remove("active"));
+      button.classList.add("active");
+    }
+
+    function renderAdminCreate() {
+      document.getElementById("admin-create").innerHTML = `
+        <div class="panel pad">
+          <p class="mini-title">Create event</p>
+
+          <div class="form-grid">
+            <div class="field span-3">
+              <label>Title</label>
+              <input id="eventTitle" placeholder="Event title" oninput="updateCreateSummary()">
+            </div>
+
+            <div class="field span-2">
+              <label>Tag</label>
+              <select id="eventTag" onchange="updateCreateSummary()">
+                <option>Concert</option>
+                <option>Drama</option>
+                <option>Collect</option>
+                <option>Musical</option>
+                <option>Spotlight</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Status</label>
+              <select id="eventPublished" onchange="updateCreateSummary()">
+                <option value="true">Published</option>
+                <option value="false">Draft</option>
+              </select>
+            </div>
+
+            <div class="field span-2">
+              <label>Date</label>
+              <input id="eventDate" type="date" onchange="updateCreateSummary()">
+            </div>
+
+            <div class="field span-2">
+              <label>Start</label>
+              <input id="eventStart" type="time" onchange="updateCreateSummary()">
+            </div>
+
+            <div class="field span-2">
+              <label>End</label>
+              <input id="eventEnd" type="time" onchange="updateCreateSummary()">
+            </div>
+
+            <div class="field span-6">
+              <label>Notes</label>
+              <textarea id="eventNotes" placeholder="Call time, dress code, setup notes..."></textarea>
+            </div>
+
+            <div class="field span-3">
+              <label>Layout link</label>
+              <div style="display:grid; grid-template-columns:1fr auto; gap:8px; align-items:center;">
+                <input id="eventLayout" placeholder="Optional Google Drawing link">
+                <label style="display:flex; align-items:center; gap:6px; white-space:nowrap;">
+                  <input id="createLayoutFile" type="checkbox" style="width:auto;">
+                  Create new
+                </label>
+              </div>
+            </div>
+
+            <div class="field span-3">
+              <label>Input List link</label>
+              <div style="display:grid; grid-template-columns:1fr auto; gap:8px; align-items:center;">
+                <input id="eventInputList" placeholder="Optional Google Doc link">
+                <label style="display:flex; align-items:center; gap:6px; white-space:nowrap;">
+                  <input id="createInputListFile" type="checkbox" style="width:auto;">
+                  Create new
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel pad" style="margin-top:12px;">
+          <p class="mini-title">Copy from past event</p>
+          <div class="field">
+            <label>Search past events by name</label>
+            <input id="copySearch" placeholder="Search for an old event..." oninput="renderCopyPastResults()">
+          </div>
+          <div id="copyResults" class="copy-results"></div>
+        </div>
+
+        <div class="panel pad" style="margin-top:12px;">
+          <div class="toolbar" style="justify-content:space-between; margin-bottom:10px;">
+            <div>
+              <p class="mini-title" style="margin-bottom:4px;">Roles for this event</p>
+              <p style="margin:0; color:var(--muted); font-size:13px;">Choose roles by department. Min is needed; max is how many can sign up.</p>
+            </div>
+
+            <div class="toolbar">
+              ${renderPresetButtons()}
+            </div>
+          </div>
+
+          <div class="role-builder">${builderSections()}</div>
+
+          <div class="sticky-action-bar">
+            <div class="sticky-action-inner">
+              <div class="sticky-summary">
+              <div class="sticky-summary-title" id="createSummaryTitle">New event</div>
+              <div class="sticky-summary-meta">
+                <span id="createSummaryTag">Concert</span>
+                <span>•</span>
+                <span id="createSummaryDate">No date</span>
+                <span>•</span>
+                <span id="createSummaryTime">No time</span>
+                <span>•</span>
+                <strong id="createSummaryRolesCount">0 roles selected</strong>
+              </div>
+              <div class="sticky-summary-list" id="createSummaryRolesList">Choose a preset, copy a past event, or select roles manually.</div>
+            </div>
+
+              <div class="sticky-actions">
+              <button class="btn primary" onclick="submitCreateEvent()">Create event</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      setTimeout(() => {
+        renderCopyPastResults();
+        updateCreateSummary();
+      }, 0);
+    }
+
+    function renderCopyPastResults() {
+      const target = document.getElementById("copyResults");
+      if (!target || !state.admin) return;
+
+      const query = String(document.getElementById("copySearch")?.value || "").trim().toLowerCase();
+      const past = (state.admin.events || [])
+        .filter(event => isPastISO(event.DateISO))
+        .filter(event => !query || String(event.Title).toLowerCase().includes(query))
+        .slice(0, 8);
+
+      target.innerHTML = past.length ? past.map(event => `
+        <div class="copy-result">
+          <div>
+            <strong>${escapeHtml(event.Title)}</strong>
+            <div style="color:var(--muted); font-size:12px; margin-top:2px;">
+              ${escapeHtml(event.Tag)} · ${escapeHtml(shortDate(event.Date))} · ${escapeHtml(event.StartTime)}–${escapeHtml(event.EndTime)}
+            </div>
+          </div>
+          <button class="btn small" onclick="copyRolesFromEvent('${escapeAttr(event.EventID)}')">Copy roles</button>
+        </div>
+      `).join("") : `<div class="empty">No past events found.</div>`;
+    }
+
+    function copyRolesFromEvent(eventId) {
+      const event = state.admin.events.find(e => String(e.EventID) === String(eventId));
+      const existing = (state.admin.eventRoles || []).filter(er => String(er.EventID) === String(eventId));
+
+      if (!existing.length) {
+        showToast("No roles to copy", "This past event has no role setup.", "warning", 3500);
+        return;
+      }
+
+      document.querySelectorAll(".role-select").forEach(cb => {
+        const roleId = String(cb.dataset.roleId);
+        const copiedRole = existing.find(er => String(er.RoleID) === roleId);
+
+        cb.checked = !!copiedRole;
+        cb.closest(".builder-role")?.classList.toggle("is-selected", cb.checked);
+
+        if (copiedRole) {
+          const minInput = document.querySelector(`.role-min[data-role-id="${cssEscape(roleId)}"]`);
+          const maxInput = document.querySelector(`.role-max[data-role-id="${cssEscape(roleId)}"]`);
+          const optionalInput = document.querySelector(`.role-optional[data-role-id="${cssEscape(roleId)}"]`);
+
+          if (minInput) minInput.value = copiedRole.MinPeople;
+          if (maxInput) maxInput.value = copiedRole.MaxPeople;
+          if (optionalInput) optionalInput.checked = !!copiedRole.IsOptional;
+        }
+      });
+
+      updateCreateSummary();
+      showToast("Roles copied", `Copied roles from ${event ? event.Title : "past event"}.`, "success", 3000);
+    }
+
+    function builderSections(existing = []) {
+      const grouped = groupBy(state.roles, "Department");
+
+      return Object.keys(grouped).map(dept => `
+        <div class="builder-section">
+          <div class="builder-section-head">
+            <h4>${escapeHtml(dept)}</h4>
+            <span class="pill">${grouped[dept].length}</span>
+          </div>
+
+          <div class="builder-roles">
+            ${grouped[dept].map(r => {
+              const existingRole = existing.find(er => er.RoleID === r.RoleID);
+              const isSelected = !!existingRole;
+              const isOptionalDefault = r.RoleName.includes("Assistant") || r.RoleName.includes("Photographer");
+
+              return `
+                <div class="builder-role ${isSelected ? "is-selected" : ""}">
+                  <label class="builder-role-top">
+                    <input
+                      class="role-select"
+                      data-role-id="${escapeAttr(r.RoleID)}"
+                      type="checkbox"
+                      ${isSelected ? "checked" : ""}
+                      onchange="handleRoleSelectChange(this)"
+                    >
+
+                    <div class="builder-role-title">
+                      <strong>${escapeHtml(r.RoleName)}</strong>
+                      <small>${r.RequiresTrainingTag ? "Training: " + escapeHtml(trainingTagName(r.RequiresTrainingTag)) : "Open role"}</small>
+                    </div>
+                  </label>
+
+                  <div class="builder-role-fields">
+                    <label class="builder-mini-field">
+                      <span>Min</span>
+                      <input
+                        class="role-min"
+                        data-role-id="${escapeAttr(r.RoleID)}"
+                        type="number"
+                        value="${existingRole ? existingRole.MinPeople : isOptionalDefault ? 0 : 1}"
+                        min="0"
+                        onchange="updateCreateSummary()"
+                      >
+                    </label>
+
+                    <label class="builder-mini-field">
+                      <span>Max</span>
+                      <input
+                        class="role-max"
+                        data-role-id="${escapeAttr(r.RoleID)}"
+                        type="text"
+                        value="${existingRole ? existingRole.MaxPeople : isOptionalDefault ? 2 : 1}"
+                        placeholder="1 or U"
+                        inputmode="text"
+                        onchange="updateCreateSummary()"
+                      >
+                    </label>
+                  </div>
+
+                  <label class="builder-optional">
+                    <input
+                      class="role-optional"
+                      data-role-id="${escapeAttr(r.RoleID)}"
+                      type="checkbox"
+                      ${existingRole ? existingRole.IsOptional ? "checked" : "" : isOptionalDefault ? "checked" : ""}
+                    >
+                    Optional
+                  </label>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function handleRoleSelectChange(checkbox) {
+      checkbox.closest(".builder-role")?.classList.toggle("is-selected", checkbox.checked);
+      updateCreateSummary();
+    }
+
+    function getRoleTemplates() {
+      if (state.admin && Array.isArray(state.admin.roleTemplates)) {
+        return state.admin.roleTemplates;
+      }
+
+      if (Array.isArray(state.roleTemplates)) {
+        return state.roleTemplates;
+      }
+
+      return [];
+    }
+
+    function renderPresetButtons() {
+      const templates = getRoleTemplates();
+
+      if (!templates.length) {
+        return `<span class="pill amber">No presets found</span>`;
+      }
+
+      return templates.map(template => `
+        <button
+          type="button"
+          class="btn small"
+          onclick="applyPresetById('${escapeAttr(template.TemplateID)}')"
+        >
+          ${escapeHtml(template.TemplateName)}
+        </button>
+      `).join("");
+    }
+
+    function applyPresetById(templateId) {
+      const templates = getRoleTemplates();
+      const template = templates.find(t => String(t.TemplateID) === String(templateId));
+
+      if (!template) {
+        showToast("Template not found", "Check the RoleTemplates and TemplateRoles sheets.", "error", 4500);
+        return;
+      }
+
+      if (!Array.isArray(template.Roles)) {
+        showToast("Template broken", "This template has no Roles array.", "error", 4500);
+        return;
+      }
+
+      document.querySelectorAll(".role-select").forEach(cb => {
+        const roleId = String(cb.dataset.roleId);
+        const templateRole = template.Roles.find(r => String(r.RoleID) === roleId);
+
+        cb.checked = !!templateRole;
+        cb.closest(".builder-role")?.classList.toggle("is-selected", cb.checked);
+
+        if (templateRole) {
+          const minInput = document.querySelector(`.role-min[data-role-id="${cssEscape(roleId)}"]`);
+          const maxInput = document.querySelector(`.role-max[data-role-id="${cssEscape(roleId)}"]`);
+          const optionalInput = document.querySelector(`.role-optional[data-role-id="${cssEscape(roleId)}"]`);
+
+          if (minInput) minInput.value = templateRole.MinPeople;
+          if (maxInput) maxInput.value = templateRole.MaxPeople;
+          if (optionalInput) optionalInput.checked = !!templateRole.IsOptional;
+        }
+      });
+
+      updateCreateSummary();
+      showToast("Preset applied", `${template.TemplateName} roles have been selected.`, "success", 2200);
+    }
+
+    function normaliseMaxPeopleInput(value) {
+      const raw = String(value || "").trim();
+
+      if (!raw) return 1;
+
+      const lower = raw.toLowerCase();
+
+      if (lower === "u" || lower === "unlimited" || raw === "∞" || lower === "inf" || lower === "infinite") {
+        return "U";
+      }
+
+      const number = Number(raw);
+
+      if (!Number.isFinite(number) || number < 1) {
+        return 1;
+      }
+
+      return Math.floor(number);
+    }
+
+    function collectSelectedRoles(scopeSelector = document) {
+      const scope = typeof scopeSelector === "string"
+        ? document.querySelector(scopeSelector)
+        : scopeSelector;
+
+      if (!scope) return [];
+
+      return Array.from(scope.querySelectorAll(".role-select")).map(cb => {
+        const roleId = cb.dataset.roleId;
+
+        return {
+          selected: cb.checked,
+          roleId,
+          minPeople: scope.querySelector(`.role-min[data-role-id="${cssEscape(roleId)}"]`)?.value || 0,
+          maxPeople: normaliseMaxPeopleInput(scope.querySelector(`.role-max[data-role-id="${cssEscape(roleId)}"]`)?.value || 1),
+          isOptional: scope.querySelector(`.role-optional[data-role-id="${cssEscape(roleId)}"]`)?.checked || false,
+          notes: ""
+        };
+      });
+    }
+
+    function updateCreateSummary() {
+      const titleBox = document.getElementById("createSummaryTitle");
+      if (!titleBox) return;
+
+      const title = val("eventTitle") || "New event";
+      const tag = val("eventTag") || "Event";
+      const date = val("eventDate") || "No date";
+      const start = val("eventStart");
+      const end = val("eventEnd");
+
+      const selected = collectSelectedRoles("#admin-create").filter(role => role.selected);
+      const selectedNames = selected.map(item => {
+        const role = state.roles.find(r => String(r.RoleID) === String(item.roleId));
+        return role ? role.RoleName : item.roleId;
+      });
+
+      titleBox.textContent = title;
+      document.getElementById("createSummaryTag").textContent = tag;
+      document.getElementById("createSummaryDate").textContent = date;
+      document.getElementById("createSummaryTime").textContent = start || end ? `${start || "?"}–${end || "?"}` : "No time";
+      document.getElementById("createSummaryRolesCount").textContent = `${selected.length} role${selected.length === 1 ? "" : "s"} selected`;
+      document.getElementById("createSummaryRolesList").textContent = selectedNames.length
+        ? selectedNames.join(", ")
+        : "Choose a preset, copy a past event, or select roles manually.";
+    }
+
+    async function submitCreateEvent() {
+      try {
+        const selectedRoles = collectSelectedRoles("#admin-create").filter(role => role.selected);
+
+        if (!val("eventTitle").trim()) {
+          showToast("Missing title", "Add an event title before creating it.", "warning", 3500);
+          return;
+        }
+
+        if (!val("eventDate")) {
+          showToast("Missing date", "Choose a date before creating the event.", "warning", 3500);
+          return;
+        }
+
+        if (!selectedRoles.length) {
+          showToast("No roles selected", "Choose at least one role or apply a preset.", "warning", 3500);
+          return;
+        }
+
+        setBusy(true);
+
+        const payload = {
+          title: val("eventTitle"),
+          tag: val("eventTag"),
+          date: val("eventDate"),
+          startTime: val("eventStart"),
+          endTime: val("eventEnd"),
+          notes: val("eventNotes"),
+          layoutLink: val("eventLayout"),
+          inputList: val("eventInputList"),
+          createLayoutFile: document.getElementById("createLayoutFile")?.checked || false,
+          createInputListFile: document.getElementById("createInputListFile")?.checked || false,
+          isPublished: val("eventPublished") === "true",
+          isPrivate: false,
+          roles: collectSelectedRoles("#admin-create")
+        };
+
+        const data = await serverCall("createEventWithRoles", [payload]);
+
+        state = data;
+        render();
+
+        if (state.isAdmin) {
+          state.admin = await serverCall("getAdminData");
+          renderAdmin();
+        }
+
+        showToast("Event created", `${payload.title} has been added.`, "success", 3500);
+      } catch (error) {
+        showToast("Could not create event", error.message || error, "error", 4500);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    function renderAdminEvents() {
+      const events = state.admin?.events || [];
+
+      document.getElementById("admin-events").innerHTML = `
+        <div class="panel pad">
+          <p class="mini-title">Manage events</p>
+
+          <div class="list-table">
+            ${events.length ? events.map(e => `
+              <div class="table-row">
+                <div>
+                  <strong>${escapeHtml(e.Title)}</strong>
+                  <span>${escapeHtml(e.Tag)} · ${escapeHtml(shortDate(e.Date))} · ${escapeHtml(e.StartTime)}–${escapeHtml(e.EndTime)} · ${escapeHtml(e.Status)}</span>
+                </div>
+
+                <span class="pill ${e.IsPublished ? "green" : "amber"}">${e.IsPublished ? "Published" : "Draft"}</span>
+                <button class="btn small" title="Edit event" onclick="editFullEvent('${escapeAttr(e.EventID)}')">Edit</button>
+              </div>
+            `).join("") : `<div class="empty">No events yet.</div>`}
+          </div>
+
+          <div id="eventEditor" style="margin-top:12px;"></div>
+          <div id="eventRoleEditor" style="margin-top:12px;"></div>
+        </div>
+      `;
+    }
+
+    function editEventDetails(eventId) {
+      const event = state.admin.events.find(e => String(e.EventID) === String(eventId));
+      if (!event) return;
+
+      document.getElementById("eventEditor").innerHTML = `
+        <div class="panel pad">
+          <p class="mini-title">Edit event details</p>
+
+          <div class="form-grid">
+            <div class="field span-3">
+              <label>Title</label>
+              <input id="editTitle" value="${escapeAttr(event.Title)}">
+            </div>
+
+            <div class="field span-2">
+              <label>Tag</label>
+              <select id="editTag">
+                ${["Concert", "Drama", "Collect", "Musical", "Spotlight", "Other"].map(tag => `
+                  <option ${event.Tag === tag ? "selected" : ""}>${tag}</option>
+                `).join("")}
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Published</label>
+              <select id="editPublished">
+                <option value="true" ${event.IsPublished ? "selected" : ""}>Published</option>
+                <option value="false" ${!event.IsPublished ? "selected" : ""}>Draft</option>
+              </select>
+            </div>
+
+            <div class="field span-2">
+              <label>Date</label>
+              <input id="editDate" type="date" value="${escapeAttr(event.DateISO)}">
+            </div>
+
+            <div class="field span-2">
+              <label>Start</label>
+              <input id="editStart" type="time" value="${escapeAttr(event.StartTime)}">
+            </div>
+
+            <div class="field span-2">
+              <label>End</label>
+              <input id="editEnd" type="time" value="${escapeAttr(event.EndTime)}">
+            </div>
+
+            <div class="field span-2">
+              <label>Status</label>
+              <select id="editStatus">
+                ${["Active", "Cancelled", "Completed", "Archived"].map(status => `
+                  <option ${event.Status === status ? "selected" : ""}>${status}</option>
+                `).join("")}
+              </select>
+            </div>
+
+            <div class="field span-2">
+              <label>Private</label>
+              <select id="editPrivate">
+                <option value="false" ${!event.IsPrivate ? "selected" : ""}>No</option>
+                <option value="true" ${event.IsPrivate ? "selected" : ""}>Yes</option>
+              </select>
+            </div>
+
+            <div class="field span-6">
+              <label>Notes</label>
+              <textarea id="editNotes">${escapeTextarea(event.Notes)}</textarea>
+            </div>
+
+            <div class="field span-3">
+              <label>Layout link</label>
+              <input id="editLayout" value="${escapeAttr(event.LayoutLink)}">
+            </div>
+
+            <div class="field span-3">
+              <label>Input List link</label>
+              <input id="editInputList" value="${escapeAttr(event.InputList)}">
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function editFullEvent(eventId) {
+      editEventDetails(eventId);
+      editEventRoles(eventId);
+
+      const editor = document.getElementById("eventEditor");
+      if (editor) {
+        editor.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    async function submitEventDetailsUpdate(eventId) {
+      try {
+        setBusy(true);
+
+        const payload = {
+          title: val("editTitle"),
+          tag: val("editTag"),
+          date: val("editDate"),
+          startTime: val("editStart"),
+          endTime: val("editEnd"),
+          notes: val("editNotes"),
+          layoutLink: val("editLayout"),
+          inputList: val("editInputList"),
+          isPublished: val("editPublished") === "true",
+          isPrivate: val("editPrivate") === "true",
+          status: val("editStatus")
+        };
+
+        state.admin = await serverCall("updateEventDetails", [eventId, payload]);
+        renderAdminEvents();
+        renderAdminStaffing();
+
+        showToast("Event updated", "Event details have been saved.", "success", 3000);
+      } catch (error) {
+        showToast("Could not update event", error.message || error, "error", 4500);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    function editEventRoles(eventId) {
+      const existing = (state.admin.eventRoles || []).filter(er => er.EventID === eventId);
+      const event = state.admin.events.find(e => e.EventID === eventId);
+
+      document.getElementById("eventRoleEditor").innerHTML = `
+        <div class="panel pad">
+          <div class="toolbar" style="justify-content:space-between; margin-bottom:10px;">
+            <div>
+              <p class="mini-title" style="margin-bottom:4px;">Edit roles: ${escapeHtml(event?.Title || eventId)}</p>
+              <p style="margin:0; color:var(--muted); font-size:13px;">Changing this rewrites the role list for this event.</p>
+            </div>
+          </div>
+
+          <div class="role-builder">${builderSections(existing)}</div>
+
+          <div class="sticky-action-bar">
+            <div class="sticky-action-inner">
+              <div class="sticky-summary">
+                <div class="sticky-summary-title">Save event changes</div>
+                <div class="sticky-summary-meta">
+                  <span>${escapeHtml(event?.Title || eventId)}</span>
+                  <span>•</span>
+                  <strong>Details and roles will both be saved</strong>
+                </div>
+                <div class="sticky-summary-list">This saves the event information and the role setup together.</div>
+              </div>
+
+              <div class="sticky-actions">
+                <button class="btn primary" onclick="submitFullEventUpdate('${escapeAttr(eventId)}')">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      setTimeout(updateCreateSummary, 0);
+    }
+
+    async function submitEventRoleUpdate(eventId) {
+      try {
+        setBusy(true);
+
+        state.admin = await serverCall("updateEventRoles", [eventId, collectSelectedRoles("#eventRoleEditor")]);
+        renderAdminEvents();
+        renderAdminStaffing();
+
+        showToast("Roles saved", "The event role list has been updated.", "success", 3000);
+      } catch (error) {
+        showToast("Could not save roles", error.message || error, "error", 4500);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    async function submitFullEventUpdate(eventId) {
+      let workingToast = null;
+
+      try {
+        setBusy(true);
+
+        workingToast = showToast(
+          "Saving event",
+          "Updating event details and roles...",
+          "info",
+          0
+        );
+
+        const payload = {
+          title: val("editTitle"),
+          tag: val("editTag"),
+          date: val("editDate"),
+          startTime: val("editStart"),
+          endTime: val("editEnd"),
+          notes: val("editNotes"),
+          layoutLink: val("editLayout"),
+          inputList: val("editInputList"),
+          isPublished: val("editPublished") === "true",
+          isPrivate: val("editPrivate") === "true",
+          status: val("editStatus")
+        };
+
+        await serverCall("updateEventDetails", [eventId, payload]);
+        state.admin = await serverCall("updateEventRoles", [eventId, collectSelectedRoles("#eventRoleEditor")]);
+
+        renderAdminEvents();
+        renderAdminStaffing();
+
+        dismissToast(workingToast);
+
+        showToast(
+          "Event saved",
+          "Event details and roles have been updated.",
+          "success",
+          3500
+        );
+      } catch (error) {
+        dismissToast(workingToast);
+        showToast("Could not save event", error.message || error, "error", 4500);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    function renderAdminStaffing() {
+      const staffing = state.admin?.staffing || [];
+      const activeOrUpcoming = staffing.filter(item => item.event.Status === "Active");
+
+      const selected = staffingEventId
+        ? staffing.find(item => String(item.event.EventID) === String(staffingEventId))
+        : activeOrUpcoming[0] || staffing[0];
+
+      if (!staffingEventId && selected) {
+        staffingEventId = selected.event.EventID;
+      }
+
+      document.getElementById("admin-staffing").innerHTML = `
+        <div class="panel pad">
+          <p class="mini-title">Staffing</p>
+
+          <div class="list-table" style="margin-bottom:12px;">
+            ${staffing.length ? staffing.map(item => `
+              <div class="staffing-event-card ${String(item.event.EventID) === String(staffingEventId) ? "active" : ""}" onclick="openStaffingEvent('${escapeAttr(item.event.EventID)}')">
+                <div>
+                  <strong>${escapeHtml(item.event.Title)}</strong>
+                  <div style="color:var(--muted); font-size:12px; margin-top:2px;">
+                    ${escapeHtml(item.event.Tag)} · ${escapeHtml(shortDate(item.event.Date))} · ${escapeHtml(item.event.StartTime)}–${escapeHtml(item.event.EndTime)}
+                  </div>
+                </div>
+                <div class="toolbar" style="justify-content:flex-end;">
+                  ${(() => {
+                    const missing = staffingMissingPeopleLabel(item);
+
+                    return `
+                      <span class="pill ${missing.className}">
+                        ${escapeHtml(missing.text)}
+                      </span>
+                    `;
+                  })()}
+                  <span class="pill blue">Details</span>
+                </div>
+              </div>
+            `).join("") : `<div class="empty">No events found.</div>`}
+          </div>
+
+          <div id="staffingDetails">${selected ? renderStaffingDetails(selected) : ""}</div>
+        </div>
+      `;
+    }
+
+    function getStaffingRolesFlat(item) {
+      if (Array.isArray(item.rolesFlat)) {
+        return item.rolesFlat;
+      }
+
+      if (Array.isArray(item.roles)) {
+        return item.roles.flatMap(section => Array.isArray(section.roles) ? section.roles : []);
+      }
+
+      return [];
+    }
+
+    function staffingMissingPeople(item) {
+      return getStaffingRolesFlat(item).reduce((total, role) => {
+        const min = Number(role.MinPeople || 0);
+        const filled = Number(role.Filled || 0);
+        return total + Math.max(min - filled, 0);
+      }, 0);
+    }
+
+    function staffingMissingPeopleLabel(item) {
+      const missingPeople = staffingMissingPeople(item);
+
+      if (missingPeople <= 0) {
+        return {
+          className: "green",
+          text: "Covered"
+        };
+      }
+
+      return {
+        className: "amber",
+        text: `${missingPeople} ${missingPeople === 1 ? "person" : "people"} missing`
+      };
+    }
+
+    function staffingPeopleNotSignedUp(item) {
+      const signedEmails = new Set(
+        getStaffingRolesFlat(item)
+          .flatMap(role => Array.isArray(role.Signups) ? role.Signups : [])
+          .map(signup => String(signup.Email || "").trim().toLowerCase())
+          .filter(Boolean)
+      );
+
+      const unavailableEmails = new Set(
+        (item.availability || [])
+          .filter(row => row.Status === "Performing" || row.Status === "Unavailable")
+          .map(row => String(row.Email || "").trim().toLowerCase())
+          .filter(Boolean)
+      );
+
+      return (state.admin?.users || [])
+        .filter(user => normaliseYearGroupDisplay(user.YearGroup) !== "Archived")
+        .filter(user => String(user.Email || "").trim())
+        .filter(user => !signedEmails.has(String(user.Email || "").trim().toLowerCase()))
+        .filter(user => !unavailableEmails.has(String(user.Email || "").trim().toLowerCase()))
+        .sort((a, b) => {
+          const yearCompare = normaliseYearGroupDisplay(a.YearGroup).localeCompare(normaliseYearGroupDisplay(b.YearGroup));
+          if (yearCompare !== 0) return yearCompare;
+          return String(a.Name || a.Email).localeCompare(String(b.Name || b.Email));
+        });
+    }
+
+    function renderPeopleNotSignedUp(item) {
+      const people = staffingPeopleNotSignedUp(item);
+
+      if (!people.length) {
+        return `
+          <div class="notice success" style="text-align:left; margin-bottom:12px;">
+            <strong>No unassigned people</strong>
+            <div style="margin-top:6px;">Everyone is either signed up, performing, or unavailable for this event.</div>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="notice" style="text-align:left; margin-bottom:12px;">
+          <strong>People not signed up yet</strong>
+          <div style="margin-top:6px; color:var(--muted);">
+            ${people.length} active ${people.length === 1 ? "user has" : "users have"} not signed up to this event.
+          </div>
+
+          <div class="not-signed-grid">
+            ${people.map(user => {
+              const displayName = user.Name || user.Email;
+              const yearGroup = normaliseYearGroupDisplay(user.YearGroup);
+              const email = String(user.Email || "").trim();
+
+              return `
+                <div class="not-signed-row">
+                  <div class="availability-person">
+                    <strong>${escapeHtml(displayName)}</strong>
+                    ${yearGroup ? `<span class="pill">${escapeHtml(yearGroup)}</span>` : ""}
+                  </div>
+
+                  <div class="availability-admin-actions">
+                    <button
+                      class="btn small performing"
+                      onclick="adminSetAvailability('${escapeAttr(item.event.EventID)}', '${escapeAttr(email)}', 'Performing', '${escapeAttr(displayName)}')"
+                    >
+                      Performing
+                    </button>
+
+                    <button
+                      class="btn small unavailable"
+                      onclick="adminSetAvailability('${escapeAttr(item.event.EventID)}', '${escapeAttr(email)}', 'Unavailable', '${escapeAttr(displayName)}')"
+                    >
+                      Unavailable
+                    </button>
+                  </div>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderEventAvailabilityList(item) {
+      const availability = Array.isArray(item.availability)
+        ? item.availability.filter(row => row.Status === "Performing" || row.Status === "Unavailable")
+        : [];
+
+      if (!availability.length) {
+        return "";
+      }
+
+      return `
+        <div class="notice" style="text-align:left; margin-bottom:12px;">
+          <strong>Cannot attend / performing</strong>
+          <div style="margin-top:6px; color:var(--muted);">
+            These people are removed from the “not signed up yet” list.
+          </div>
+
+          <div class="availability-list">
+            ${availability.map(row => {
+              const displayName = row.Name || row.Email;
+              const yearGroup = normaliseYearGroupDisplay(row.YearGroup);
+              const statusClass = row.Status === "Performing" ? "blue" : "amber";
+              const statusText = row.Status === "Performing" ? "Performing" : "Unavailable";
+
+              return `
+                <div class="availability-row">
+                  <div class="availability-person">
+                    <strong>${escapeHtml(displayName)}</strong>
+                    ${yearGroup ? `<span class="pill">${escapeHtml(yearGroup)}</span>` : ""}
+                    <span class="pill ${statusClass}">${escapeHtml(statusText)}</span>
+                  </div>
+
+                  <div class="availability-actions">
+                    <button
+                      class="btn small undo"
+                      onclick="adminClearAvailability('${escapeAttr(item.event.EventID)}', '${escapeAttr(row.Email)}', '${escapeAttr(displayName)}')"
+                    >
+                      Remove marker
+                    </button>
+                  </div>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function openStaffingEvent(eventId) {
+      staffingEventId = eventId;
+      renderAdminStaffing();
+    }
+
+    function renderStaffingDetails(item) {
+      const missing = getStaffingRolesFlat(item).filter(role => {
+        return Number(role.Filled || 0) < Number(role.MinPeople || 0);
+      });
+
+      const missingLabel = staffingMissingPeopleLabel(item);
+
+      return `
+        <div class="panel pad">
+          <div class="toolbar" style="justify-content:space-between; margin-bottom:12px;">
+            <div>
+              <h2 style="margin:0;">${escapeHtml(item.event.Title)}</h2>
+              <p style="margin:6px 0 0; color:var(--muted);">${escapeHtml(item.event.Tag)} · ${escapeHtml(item.event.Date)} · ${escapeHtml(item.event.StartTime)}–${escapeHtml(item.event.EndTime)}</p>
+            </div>
+            <span class="pill ${missingLabel.className}">${escapeHtml(missingLabel.text)}</span>
+          </div>
+
+          ${missing.length ? `
+            <div class="notice" style="text-align:left; margin-bottom:12px;">
+              <strong>Missing people</strong>
+              <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+                ${missing.map(role => {
+                  const missingForRole = Math.max(Number(role.MinPeople || 0) - Number(role.Filled || 0), 0);
+
+                  return `
+                    <span class="pill amber">
+                      ${escapeHtml(role.RoleName)} · ${missingForRole} ${missingForRole === 1 ? "person" : "people"} needed
+                    </span>
+                  `;
+                }).join("")}
+              </div>
+            </div>
+          ` : `
+            <div class="notice success" style="text-align:left; margin-bottom:12px;">
+              <strong>Minimum covered</strong>
+              <div style="margin-top:6px;">All required minimums are covered for this event.</div>
+            </div>
+          `}
+
+          ${renderPeopleNotSignedUp(item)}
+          ${renderEventAvailabilityList(item)}
+
+          <div class="role-sections">
+            ${item.roles.map(section => {
+              const roleCount = section.roles.length;
+              const hasUnlimited = section.roles.some(role => role.IsUnlimited);
+              const peopleCount = section.roles.reduce((total, role) => {
+                if (role.IsUnlimited) return total;
+                return total + Number(role.MaxPeople || 0);
+              }, 0);
+              const peopleLabel = hasUnlimited
+                ? peopleCount > 0
+                  ? `${peopleCount}+ ${peopleCount === 1 ? "person" : "people"} max`
+                  : "Unlimited max"
+                : `${peopleCount} ${peopleCount === 1 ? "person" : "people"} max`;
+
+              return `
+                <section class="dept-section">
+                  <div class="dept-head">
+                    <h3>${escapeHtml(section.name)}</h3>
+                    <div class="toolbar">
+                      <span class="pill">${roleCount} ${roleCount === 1 ? "role" : "roles"}</span>
+                      <span class="pill">${escapeHtml(peopleLabel)}</span>
+                    </div>
+                  </div>
+
+                  <div class="roles-grid">
+                    ${section.roles.map(role => renderStaffingRole(role)).join("")}
+                  </div>
+                </section>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+
+    function renderStaffingRole(role) {
+      const missing = role.Filled < role.MinPeople;
+
+      return `
+        <div class="staffing-role">
+          <div class="role-top">
+            <div>
+              <h4 style="margin:0;">${escapeHtml(role.RoleName)}</h4>
+              <div class="role-sub">${role.IsOptional ? "Optional" : "Required"} · ${role.Filled}/${role.IsUnlimited ? "∞" : role.MaxPeople}</div>
+            </div>
+            <span class="pill ${missing ? "amber" : "green"}">${missing ? "Missing" : "OK"}</span>
+          </div>
+
+          <div class="staffing-signups">
+            ${role.Signups.length ? role.Signups.map(signup => `
+              <div class="staffing-person">
+                <div>
+                  <strong style="font-size:13px;">${escapeHtml(signup.Name || signup.Email)}</strong>
+                  <div style="color:var(--muted); font-size:12px;">${escapeHtml(signup.YearGroup || "")} · ${escapeHtml(signup.Email)}</div>
+                </div>
+                <button class="btn danger small" title="Remove signup" onclick="adminRemoveSignup('${escapeAttr(signup.SignupID)}', '${escapeAttr(signup.Name || signup.Email)}')">Remove</button>
+              </div>
+            `).join("") : `<div class="person-line">No one signed up.</div>`}
+          </div>
+
+          <div class="staffing-actions">
+            ${role.IsUnlimited || role.SpacesLeft > 0 ? `
+              <button
+                class="btn small"
+                onclick="adminAddSignup('${escapeAttr(role.EventID)}', '${escapeAttr(role.EventRoleID)}', '${escapeAttr(role.RoleName)}')"
+              >
+                Add person
+              </button>
+            ` : `
+              <button class="btn unavailable small" disabled>Role full</button>
+            `}
+          </div>
+        </div>
+      `;
+    }
+
+    function adminRemoveSignup(signupId, personName) {
+      showReasonToast(
+        "Remove signup?",
+        `Enter a reason for removing ${personName}.`,
+        async reason => {
+          let workingToast = null;
+
+          try {
+            setBusy(true);
+            workingToast = showToast("Removing signup", "One moment...", "info", 0);
+
+            state.admin = await serverCall("removeSignupAsAdmin", [signupId, reason]);
+
+            dismissToast(workingToast);
+            renderAdminStaffing();
+
+            showToast("Signup removed", `${personName} has been removed.`, "success", 3200);
+          } catch (error) {
+            dismissToast(workingToast);
+            showToast("Could not remove signup", error.message || error, "error", 4500);
+          } finally {
+            setBusy(false);
+          }
+        }
+      );
+    }
+
+
+    function adminSetAvailability(eventId, email, status, personName) {
+      const label = status === "Performing" ? "performing" : "unavailable";
+
+      showConfirmToast(
+        status === "Performing" ? "Mark as performing?" : "Mark as unavailable?",
+        `This will remove ${personName || email} from any current role signups for this event.`,
+        async () => {
+          let workingToast = null;
+
+          try {
+            setBusy(true);
+
+            workingToast = showToast("Updating availability", `Marking ${personName || email} as ${label}...`, "info", 0);
+
+            state.admin = await serverCall("adminSetUserAvailability", [eventId, email, status]);
+
+            dismissToast(workingToast);
+            renderAdminStaffing();
+
+            showToast("Availability updated", `${personName || email} is now marked as ${label}.`, "success", 3200);
+          } catch (error) {
+            dismissToast(workingToast);
+            showToast("Could not update availability", error.message || error, "error", 5000);
+          } finally {
+            setBusy(false);
+          }
+        }
+      );
+    }
+
+    async function adminClearAvailability(eventId, email, personName) {
+      let workingToast = null;
+
+      try {
+        setBusy(true);
+
+        workingToast = showToast("Updating availability", `Removing marker for ${personName || email}...`, "info", 0);
+
+        state.admin = await serverCall("adminClearUserAvailability", [eventId, email]);
+
+        dismissToast(workingToast);
+        renderAdminStaffing();
+
+        showToast("Availability cleared", `${personName || email} is back in the not signed up list.`, "success", 3000);
+      } catch (error) {
+        dismissToast(workingToast);
+        showToast("Could not clear availability", error.message || error, "error", 5000);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    function adminAddSignup(eventId, eventRoleId, roleName) {
+      const users = (state.admin?.users || [])
+        .filter(user => normaliseYearGroupDisplay(user.YearGroup) !== "Archived")
+        .filter(user => String(user.Email || "").trim())
+        .sort((a, b) => String(a.Name || a.Email).localeCompare(String(b.Name || b.Email)));
+
+      if (!users.length) {
+        showToast("No users found", "There are no active users to add.", "warning", 3500);
+        return;
+      }
+
+      showSelectUserToast(
+        "Add person to role",
+        `Choose who to add to ${roleName}.`,
+        users,
+        async selectedEmail => {
+          let workingToast = null;
+
+          try {
+            setBusy(true);
+
+            const selectedUser = users.find(user => String(user.Email) === String(selectedEmail));
+            const selectedName = selectedUser ? selectedUser.Name || selectedUser.Email : selectedEmail;
+
+            workingToast = showToast(
+              "Adding signup",
+              `Adding ${selectedName} to ${roleName}...`,
+              "info",
+              0
+            );
+
+            state.admin = await serverCall("adminSignUpUserForRole", [eventId, eventRoleId, selectedEmail]);
+
+            dismissToast(workingToast);
+            renderAdminStaffing();
+
+            showToast(
+              "Signup added",
+              `${selectedName} has been added to ${roleName}.`,
+              "success",
+              3500
+            );
+          } catch (error) {
+            dismissToast(workingToast);
+            showToast("Could not add signup", error.message || error, "error", 5000);
+          } finally {
+            setBusy(false);
+          }
+        }
+      );
+    }
+
+    function handleAdminUserSearch(value) {
+      adminUserSearch = String(value || "").trim().toLowerCase();
+      renderAdminUsers();
+
+      const input = document.getElementById("trainingEmail");
+      if (input) {
+        input.focus();
+        input.setSelectionRange(input.value.length, input.value.length);
+      }
+    }
+
+    function renderAdminUsers() {
+      const users = state.admin?.users || [];
+      const query = adminUserSearch;
+
+      const matchesUserSearch = user => {
+        if (!query) return true;
+
+        const yearGroup = normaliseYearGroupDisplay(user.YearGroup);
+        const tags = Array.isArray(user.TrainingTags)
+          ? user.TrainingTags.map(trainingTagName).join(" ")
+          : "";
+
+        const haystack = [
+          user.Email,
+          user.Name,
+          yearGroup,
+          tags
+        ].join(" ").toLowerCase();
+
+        return haystack.includes(query);
+      };
+
+      const activeUsers = users
+        .filter(u => normaliseYearGroupDisplay(u.YearGroup) !== "Archived")
+        .filter(matchesUserSearch);
+
+      const archivedUsers = users
+        .filter(u => normaliseYearGroupDisplay(u.YearGroup) === "Archived")
+        .filter(matchesUserSearch);
+
+      document.getElementById("admin-users").innerHTML = `
+        <div class="panel pad">
+          <div class="toolbar" style="justify-content:space-between; margin-bottom:14px;">
+            <div>
+              <p class="mini-title" style="margin-bottom:4px;">Users and training</p>
+              <p style="margin:0; color:var(--muted); font-size:13px;">
+                Add training tags, update year groups, and archive leavers.
+              </p>
+            </div>
+
+            <button class="btn danger small" onclick="confirmRollYearGroups()">Roll year groups forward</button>
+          </div>
+
+          <div class="form-grid" style="margin-bottom:12px;">
+            <div class="field span-3">
+              <label>User email</label>
+              <input
+                id="trainingEmail"
+                placeholder="Search name or email..."
+                value="${escapeAttr(adminUserSearch)}"
+                oninput="handleAdminUserSearch(this.value)"
+              >
+            </div>
+
+            <div class="field span-2">
+              <label style="display:flex; align-items:center; gap:7px;">
+                Training tag
+                <button
+                  id="trainingTagHelpDot"
+                  class="help-dot"
+                  type="button"
+                  data-help=""
+                  aria-label="Show training tag description"
+                  onclick="event.preventDefault(); event.stopPropagation(); showInfoToast('Training tag', this.dataset.help || 'No description available.');"
+                >?</button>
+              </label>
+              <select id="trainingTag" onchange="updateTrainingTagHelp()">
+                ${TRAINING_TAGS.map(tag => `
+                  <option value="${escapeAttr(tag.id)}">${escapeHtml(tag.name)}</option>
+                `).join("")}
+              </select>
+            </div>
+
+            <div class="field">
+              <label>&nbsp;</label>
+              <button class="btn primary" onclick="submitTrainingTag()">Add tag</button>
+            </div>
+          </div>
+
+          <p class="mini-title">Active users</p>
+
+          <div class="list-table">
+            ${activeUsers.length ? activeUsers.map(u => renderUserAdminRow(u)).join("") : `<div class="empty">No active users yet.</div>`}
+          </div>
+
+          <p class="mini-title" style="margin-top:18px;">Archived users</p>
+
+          <div class="list-table">
+            ${archivedUsers.length ? archivedUsers.map(u => renderUserAdminRow(u)).join("") : `<div class="empty">No archived users.</div>`}
+          </div>
+        </div>
+      `;
+
+      setTimeout(updateTrainingTagHelp, 0);
+    }
+
+    function renderNeededPill(e) {
+      const missingPeople = Number(e.MissingPeople ?? e.MissingCount ?? 0);
+      const openSpaces = Number(e.OpenSpaces ?? 0);
+      const roleCount = Number(e.RoleCount ?? 0);
+
+      const breakdown = buildEventStaffingHelp(e);
+
+      if (roleCount <= 0) {
+        return `<span class="pill">No roles</span>`;
+      }
+
+      if (missingPeople > 0) {
+        const label = `${missingPeople} more ${missingPeople === 1 ? "person" : "people"} required`;
+
+        return `
+          <span class="pill amber needed-pill">
+            <span>${escapeHtml(label)}</span>
+            <button
+              class="needed-help"
+              type="button"
+              data-help="${escapeAttr(breakdown)}"
+              aria-label="Show staffing breakdown"
+              onclick="event.stopPropagation(); showInfoToast('Staffing breakdown', this.dataset.help || 'No breakdown available');"
+            >i</button>
+          </span>
+        `;
+      }
+
+      if (openSpaces > 0 || e.HasUnlimitedOpenSpaces) {
+        const label = e.HasUnlimitedOpenSpaces
+          ? "Covered, spaces still open"
+          : `${openSpaces} ${openSpaces === 1 ? "space" : "spaces"} still open`;
+
+        return `
+          <span class="pill blue needed-pill">
+            <span>${escapeHtml(label)}</span>
+            <button
+              class="needed-help"
+              type="button"
+              data-help="${escapeAttr(breakdown)}"
+              aria-label="Show staffing breakdown"
+              onclick="event.stopPropagation(); showInfoToast('Staffing breakdown', this.dataset.help || 'No breakdown available');"
+            >i</button>
+          </span>
+        `;
+      }
+
+      return `
+        <span class="pill green needed-pill">
+          <span>Full</span>
+          <button
+            class="needed-help"
+            type="button"
+            data-help="${escapeAttr(breakdown)}"
+            aria-label="Show staffing breakdown"
+            onclick="event.stopPropagation(); showInfoToast('Staffing breakdown', this.dataset.help || 'No breakdown available');"
+          >i</button>
+        </span>
+      `;
+    }
+
+    function formatDepartmentBreakdown(items, valueKey, emptyText) {
+      if (!Array.isArray(items) || !items.length) {
+        return emptyText;
+      }
+
+      return items
+        .filter(item => {
+          const value = item[valueKey];
+          return String(value || "").toLowerCase() === "unlimited" || Number(value || 0) > 0;
+        })
+        .map(item => {
+          const value = item[valueKey];
+          const displayValue = String(value || "").toLowerCase() === "unlimited" ? "unlimited" : value;
+          return `${item.Department}: ${displayValue}`;
+        })
+        .join(" | ") || emptyText;
+    }
+
+    function buildEventStaffingHelp(e) {
+      const requiredDepartments = Array.isArray(e.DepartmentNeeds) ? e.DepartmentNeeds : [];
+      const openDepartments = Array.isArray(e.DepartmentOpenSpaces) ? e.DepartmentOpenSpaces : [];
+
+      const requiredLine = formatDepartmentBreakdown(
+        requiredDepartments,
+        "MissingPeople",
+        "None"
+      );
+
+      const openLine = formatDepartmentBreakdown(
+        openDepartments,
+        "OpenSpaces",
+        "None"
+      );
+
+      return `Required still needed:\n${requiredLine}\n\nSpaces still open:\n${openLine}`;
+    }
+
+    function renderUserAdminRow(u) {
+      const yearGroup = normaliseYearGroupDisplay(u.YearGroup);
+      const tagText = u.TrainingTags.length
+        ? u.TrainingTags.map(trainingTagName).join(", ")
+        : "No training tags";
+
+      return `
+        <div class="table-row" style="grid-template-columns:minmax(0, 1fr) 190px auto auto;">
+          <div style="min-width:0;">
+            <strong>${escapeHtml(u.Name || u.Email)}</strong>
+            <span>${escapeHtml(yearGroup || "No year")} · ${escapeHtml(u.Email)} · ${escapeHtml(tagText)}</span>
+          </div>
+
+          <select onchange="submitUserYearGroup('${escapeAttr(u.Email)}', this.value)">
+            ${yearGroupOptions(yearGroup)}
+          </select>
+
+          <span class="pill ${u.IsAdmin ? "blue" : yearGroup === "Archived" ? "amber" : ""}">
+            ${u.IsAdmin ? "Admin" : yearGroup === "Archived" ? "Archived" : "Crew"}
+          </span>
+
+          <button class="btn small" onclick="selectTrainingUser('${escapeAttr(u.Email)}', '${escapeAttr(u.Name || u.Email)}')">Select user</button>
+        </div>
+      `;
+    }
+
+    async function submitUserYearGroup(email, yearGroup) {
+      let workingToast = null;
+
+      try {
+        setBusy(true);
+
+        workingToast = showToast(
+          "Updating year group",
+          `Changing ${email} to ${yearGroup}...`,
+          "info",
+          0
+        );
+
+        state.admin = await serverCall("updateUserYearGroup", [email, yearGroup]);
+
+        renderAdminUsers();
+        dismissToast(workingToast);
+
+        showToast("Year group updated", `${email} is now ${yearGroup}.`, "success", 3000);
+      } catch (error) {
+        dismissToast(workingToast);
+        showToast("Could not update year group", error.message || error, "error", 4500);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    function confirmRollYearGroups() {
+      showConfirmToast(
+        "Roll year groups forward?",
+        "This will move Year 7-12 up by one year and archive Year 13. N/A and Archived users stay the same.",
+        rollYearGroupsForward
+      );
+    }
+
+    async function rollYearGroupsForward() {
+      let workingToast = null;
+
+      try {
+        setBusy(true);
+
+        workingToast = showToast(
+          "Rolling year groups forward",
+          "Updating user year groups...",
+          "info",
+          0
+        );
+
+        const result = await serverCall("rollYearGroupsForward");
+
+        state.admin = result.admin;
+
+        renderAdminUsers();
+        dismissToast(workingToast);
+
+        showToast(
+          "Year groups rolled forward",
+          `${result.changed} user(s) updated. ${result.archived} user(s) archived.`,
+          "success",
+          4500
+        );
+      } catch (error) {
+        dismissToast(workingToast);
+        showToast("Could not roll year groups", error.message || error, "error", 4500);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    function selectTrainingUser(email, name) {
+      adminUserSearch = email;
+
+      const input = document.getElementById("trainingEmail");
+
+      if (input) {
+        input.value = email;
+      }
+
+      renderAdminUsers();
+
+      showToast("User selected", `${name} is ready to update. Choose a training tag and press Add.`, "info", 3000);
+    }
+
+    function updateTrainingTagHelp() {
+      const dot = document.getElementById("trainingTagHelpDot");
+      const selected = val("trainingTag");
+
+      if (!dot) return;
+
+      dot.dataset.help = trainingTagDescription(selected) || "No description available.";
+      dot.setAttribute("aria-label", `Show training tag description: ${dot.dataset.help}`);
+    }
+
+    async function submitTrainingTag() {
+      let workingToast = null;
+
+      try {
+        const email = val("trainingEmail");
+        const tag = val("trainingTag");
+
+        if (!email.trim()) {
+          showToast("Choose a user", "Select a user before adding a training tag.", "warning", 3500);
+          return;
+        }
+
+        setBusy(true);
+
+        workingToast = showToast(
+          "Adding tag",
+          `Adding ${trainingTagName(tag)} to ${email}...`,
+          "info",
+          0
+        );
+
+        const adminData = await serverCall("addTrainingTag", [email, tag]);
+
+        state.admin = adminData;
+        renderAdminUsers();
+
+        dismissToast(workingToast);
+
+        showToast(
+          "Tag added",
+          `${trainingTagName(tag)} has been added to ${email}.`,
+          "success",
+          3500
+        );
+      } catch (error) {
+        dismissToast(workingToast);
+        showToast("Could not add training tag", error.message || error, "error", 4500);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    function renderAdminActivity() {
+      const activity = state.admin?.activity || [];
+
+      document.getElementById("admin-activity").innerHTML = `
+        <div class="panel pad">
+          <p class="mini-title">Recent activity</p>
+
+          <div class="list-table">
+            ${activity.length ? activity.map(a => `
+              <div class="table-row" style="grid-template-columns:1fr auto;">
+                <div>
+                  <strong>${escapeHtml(a.Action)}</strong>
+                  <span>${escapeHtml(a.Details)} · ${escapeHtml(a.Email)}</span>
+                </div>
+
+                <span class="pill">${escapeHtml(a.Timestamp)}</span>
+              </div>
+            `).join("") : `<div class="empty">No activity yet.</div>`}
+          </div>
+        </div>
+      `;
+    }
+
+    function showToast(title, message = "", type = "info", timeout = 3200) {
+      const stack = document.getElementById("toastStack");
+      if (!stack) return null;
+
+      const toast = document.createElement("div");
+      toast.className = `toast ${type}`;
+
+      toast.innerHTML = `
+        <div class="toast-title">${escapeHtml(title)}</div>
+        ${message ? `<div class="toast-message">${escapeHtml(message)}</div>` : ""}
+      `;
+
+      stack.appendChild(toast);
+
+      if (timeout) {
+        setTimeout(() => {
+          dismissToast(toast);
+        }, timeout);
+      }
+
+      return toast;
+    }
+
+
+    function showInfoToast(title, message = "") {
+      showToast(title, message, "info", 5200);
+    }
+
+    function dismissToast(toast) {
+      if (!toast) return;
+
+      toast.style.opacity = "0";
+      toast.style.transform = "translateY(8px) scale(.98)";
+      toast.style.transition = ".16s ease";
+
+      setTimeout(() => toast.remove(), 180);
+    }
+
+    function showConfirmToast(title, message, onConfirm) {
+      const stack = document.getElementById("toastStack");
+      if (!stack) return;
+
+      const toast = document.createElement("div");
+      toast.className = "toast warning";
+
+      toast.innerHTML = `
+        <div class="toast-title">${escapeHtml(title)}</div>
+        <div class="toast-message">${escapeHtml(message)}</div>
+        <div class="toast-actions">
+          <button class="btn ghost small" type="button">Cancel</button>
+          <button class="btn danger small" type="button">Confirm</button>
+        </div>
+      `;
+
+      const [cancelButton, confirmButton] = toast.querySelectorAll("button");
+
+      cancelButton.addEventListener("click", () => {
+        toast.remove();
+      });
+
+      confirmButton.addEventListener("click", async () => {
+        toast.remove();
+        await onConfirm();
+      });
+
+      stack.appendChild(toast);
+    }
+
+    function showSelectUserToast(title, message, users, onConfirm) {
+      const stack = document.getElementById("toastStack");
+      if (!stack) return;
+
+      const toast = document.createElement("div");
+      toast.className = "toast info";
+
+      toast.innerHTML = `
+        <div class="toast-title">${escapeHtml(title)}</div>
+        <div class="toast-message">${escapeHtml(message)}</div>
+
+        <div style="margin-top:10px;">
+          <select style="width:100%;">
+            <option value="">Choose a user...</option>
+            ${users.map(user => `
+              <option value="${escapeAttr(user.Email)}">
+                ${escapeHtml(user.Name || user.Email)}${user.YearGroup ? " · " + escapeHtml(normaliseYearGroupDisplay(user.YearGroup)) : ""}
+              </option>
+            `).join("")}
+          </select>
+        </div>
+
+        <div class="toast-actions">
+          <button class="btn ghost small" type="button">Cancel</button>
+          <button class="btn primary small" type="button">Add</button>
+        </div>
+      `;
+
+      const select = toast.querySelector("select");
+      const [cancelButton, confirmButton] = toast.querySelectorAll("button");
+
+      cancelButton.addEventListener("click", () => {
+        toast.remove();
+      });
+
+      confirmButton.addEventListener("click", async () => {
+        const selectedEmail = select.value;
+
+        if (!selectedEmail) {
+          select.focus();
+          return;
+        }
+
+        toast.remove();
+        await onConfirm(selectedEmail);
+      });
+
+      stack.appendChild(toast);
+      select.focus();
+    }
+
+    function showReasonToast(title, message, onConfirm) {
+      const stack = document.getElementById("toastStack");
+      if (!stack) return;
+
+      const toast = document.createElement("div");
+      toast.className = "toast warning";
+
+      toast.innerHTML = `
+        <div class="toast-title">${escapeHtml(title)}</div>
+        <div class="toast-message">${escapeHtml(message)}</div>
+        <div style="margin-top:10px;">
+          <input type="text" placeholder="Type here..." style="width:100%;">
+        </div>
+        <div class="toast-actions">
+          <button class="btn ghost small" type="button">Cancel</button>
+          <button class="btn danger small" type="button">Remove</button>
+        </div>
+      `;
+
+      const input = toast.querySelector("input");
+      const [cancelButton, confirmButton] = toast.querySelectorAll("button");
+
+      cancelButton.addEventListener("click", () => {
+        toast.remove();
+      });
+
+      confirmButton.addEventListener("click", async () => {
+        const reason = input.value.trim();
+
+        if (!reason) {
+          input.focus();
+          return;
+        }
+
+        toast.remove();
+        await onConfirm(reason);
+      });
+
+      stack.appendChild(toast);
+      input.focus();
+    }
+
+    function groupBy(list, key) {
+      return list.reduce((acc, item) => {
+        const value = item[key] || "Other";
+        acc[value] = acc[value] || [];
+        acc[value].push(item);
+        return acc;
+      }, {});
+    }
+
+    function val(id) {
+      return document.getElementById(id)?.value || "";
+    }
+
+    function shortDate(value) {
+      return String(value || "").replace(/\s\d{4}$/, "");
+    }
+
+    function setBusy(isBusy) {
+      document.querySelectorAll("button").forEach(btn => btn.disabled = isBusy);
+    }
+
+    function cssEscape(value) {
+      if (window.CSS && CSS.escape) return CSS.escape(value);
+      return String(value).replace(/"/g, '\\"');
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function formatMultiline(value) {
+      return escapeHtml(value).replace(/\r?\n/g, "<br>");
+    }
+
+    function escapeTextarea(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+    }
+
+    function escapeAttr(value) {
+      return escapeHtml(value);
+    }
+
+    window.addEventListener("resize", queueDashboardPanelRender);
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", queueDashboardPanelRender);
+    }
+
+    applyResponsiveMode();
+    loadApp();
+  </script>
+</body>
+</html>
