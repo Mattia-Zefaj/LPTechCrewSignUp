@@ -52,6 +52,8 @@
     .app-shell {
       min-height: 100vh;
       background: var(--bg);
+      display: flex;
+      flex-direction: column;
     }
 
     body {
@@ -184,8 +186,12 @@
 
     .main {
       max-width: 1320px;
+      width: 100%;
       margin: 0 auto;
       padding: 22px;
+      min-height: calc(100vh - 72px);
+      display: flex;
+      flex-direction: column;
     }
 
     .page-head {
@@ -2744,11 +2750,14 @@
     }
 
   .app-footer {
-    margin: 34px 0 10px;
+    margin: auto 0 10px;
+    padding-top: 48px;
+    padding-bottom: 18px;
     text-align: center;
     color: var(--muted);
     font-size: 13px;
     font-weight: 750;
+    transform: translateY(80px);
   }
 
   .app-footer a {
@@ -2763,9 +2772,10 @@
   }
 
   body.phone-mode .app-footer {
-    margin-top: 28px;
-    padding-bottom: 12px;
+    margin-top: auto;
+    padding-bottom: 18px;
     font-size: 13px;
+    transform: translateY(70px);
   }
 
 </style>
@@ -2937,6 +2947,11 @@
         id: "media_director",
         name: "Media Director",
         description: "Can direct cameras / media team"
+      },
+      {
+        id: "steadicam_operator",
+        name: "Steadicam Operator",
+        description: "Can operate a steadicam"
       }
     ];
 
